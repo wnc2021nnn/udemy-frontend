@@ -1,0 +1,14 @@
+.wrapper{
+    width: 100%;
+}
+
+.scrollContent{
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 400px;
+    display: flex;
+}
+
+.scrollContent::-webkit-scrollbar {
+    display: none;
+}

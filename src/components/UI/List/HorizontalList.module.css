@@ -1,0 +1,18 @@
+.scrollingwrapper {
+    white-space: nowrap;
+    
+  }
+
+  .scrollingwrapper::-webkit-scrollbar {
+      display: none;
+  }
+
+  .title{
+      text-align: start;
+      font-size: 30px;
+  }
+
+  .wrapper{
+        width: auto;
+        position: "relative";
+  }
