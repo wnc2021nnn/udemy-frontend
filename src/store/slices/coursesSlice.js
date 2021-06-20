@@ -4,14 +4,20 @@ import Status from "../../constants/status-constants";
 
 const LIMIT_ENTITIES = 10;
 const MOST_VIEW_COURSES_PARAMS = {
-  sort: "view_from_last_week_des",
+  sort: "view_des",
   limit: LIMIT_ENTITIES,
 };
 
-const NEWEST_COURSES_PARAMS = {
+const NEWEST_COURSES_WEEK_PARAMS = {
     sort: "created_date_des",
     limit: LIMIT_ENTITIES,
   };
+
+
+const COURSES_HIGHLIGHTS = {
+  sort: "view_from_last_week_des",
+  limit: 4
+}
 
 const initialState = {
   listCourses: {
@@ -35,8 +41,20 @@ const initialState = {
       message: "",
     },
   },
+  listHighlightCourses: {
+    entities: [],
+    status: {
+      status: "",
+      message: "",
+    },
+  },
 };
 
+/**
+ * send API request for courses
+ * @param {*} params 
+ * @returns 
+ */
 const sendAPIRequest = async (params) => {
   const response = await getAllCourses(params);
   return response.data.data;
@@ -50,14 +68,25 @@ export const fetchCourses = createAsyncThunk(
   async () => await sendAPIRequest()
 );
 
+/**
+ * Get most view courses thunk mmiddleware
+ */
 export const fetchMostViewCourses = createAsyncThunk(
   "courses/fetchMostViewCourses",
   async () => await sendAPIRequest(MOST_VIEW_COURSES_PARAMS)
 );
 
+/**
+ * Get most view courses thunk mmiddleware
+ */
 export const fetchNewestCourses = createAsyncThunk(
   "courses/fetchNewestCourses",
-  async () => await sendAPIRequest(NEWEST_COURSES_PARAMS)
+  async () => await sendAPIRequest(NEWEST_COURSES_WEEK_PARAMS)
+);
+
+export const fetchHighlightCourses = createAsyncThunk(
+  "courses/fetchHighlightCourses",
+  async () => await sendAPIRequest(COURSES_HIGHLIGHTS)
 );
 
 const courseSlice = createSlice({
@@ -107,6 +136,20 @@ const courseSlice = createSlice({
       .addCase(fetchNewestCourses.rejected, (state, action) => {
         state.listNewestCourses.status.status = Status.FAILED_STATUS;
         state.listNewestCourses.status.message = action.error.message;
+      })
+      // Get highlight couses last week
+      .addCase(fetchHighlightCourses.pending, (state, action) => {
+        state.listHighlightCourses.status.status = Status.LOADING_STATUS;
+        state.listHighlightCourses.status.message = "Fetching all courses!";
+      })
+      .addCase(fetchHighlightCourses.fulfilled, (state, action) => {
+        state.listHighlightCourses.status.status = Status.SUCCESS_STATUS;
+        state.listHighlightCourses.message = "Get all course successfuly!";
+        state.listHighlightCourses.entities = action.payload;
+      })
+      .addCase(fetchHighlightCourses.rejected, (state, action) => {
+        state.listHighlightCourses.status.status = Status.FAILED_STATUS;
+        state.listHighlightCourses.status.message = action.error.message;
       })
   },
 });

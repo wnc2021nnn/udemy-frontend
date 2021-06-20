@@ -1,0 +1,42 @@
+
+.review{
+    display: flex;
+    align-items: center;
+}
+
+.meta{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: auto;
+
+}
+.infor{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    white-space: normal;
+    text-align: start;
+}
+
+.author{
+    color: #2F80ED;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+}
+
+.wrapper{
+    display: flex;      
+    flex-direction: column;
+    justify-content: space-between;
+    height: auto;
+    background-color: aliceblue;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 325px;
+    position: relative;
+    left: -20%;
+}   
