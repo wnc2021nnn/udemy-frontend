@@ -5,7 +5,7 @@ import classes from "./ListCourses.module.css"
 const ListCourses = (props) =>{
 
     const listCourseItem =  props.listItemCourse.map((item)=>{
-        return <ItemCourse key={item.courses_id} courseItem = {item}/>
+        return <ItemCourse key={item.course_id} courseItem = {item}/>
       })
 
     return <div className={classes.wrapper}>
