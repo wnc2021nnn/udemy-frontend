@@ -16,3 +16,5 @@ export const getAllCourses = async (params) =>{
     const res = await axiosIntance.get(APIPath.GET_ALL_COURSES, {params: params});
     return res;
 }
+
+ 

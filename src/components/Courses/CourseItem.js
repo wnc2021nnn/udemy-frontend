@@ -10,7 +10,7 @@ const CourseItem = (props) =>{
       <img alt={courseItem.title} src={courseItem.avatar} className={classes.thumbnail}/>
       <div className={classes.infor}>
       <div>{courseItem.description}</div>
-      <div className={classes.author}>{courseItem.lecturers_id}</div> 
+      <div className={classes.author}>{`${courseItem.lecturer_last_name} ${courseItem.lecturer_first_name}`}</div> 
         <div className={classes.meta}> 
           <div className={classes.review}>
             <div > 

@@ -9,7 +9,7 @@ const CoursePanel = (props) => {
     <div className={classes.wrapper}>
         <div className={classes.infor}>
           <div>{courseItem.description}</div>
-          <div className={classes.author}>{courseItem.lecturers_id}</div>
+          <div className={classes.author}>{`${courseItem.lecturer_last_name} ${courseItem.lecturer_first_name}`}</div> 
           <div className={classes.meta}>
             <div className={classes.review}>
               <div>{courseItem.rating}</div>
