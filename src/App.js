@@ -10,7 +10,6 @@ function App() {
         <Route path="/" exact>
             <HomePage />
           </Route>
-
           
         </Switch>
       </Layout>
