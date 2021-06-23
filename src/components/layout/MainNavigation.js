@@ -4,6 +4,7 @@ import classes from "./MainNavigation.module.css";
 import favoriteIcon from "../../assets/icons/favorite.svg";
 import notificationIcon from "../../assets/icons/notification.svg";
 import logoIcon from "../../assets/icons/Logo.svg"
+import CategoryDropdown from "../Category/CategoryDropDown";
 
 const MainNavigation = () => {
   return (
@@ -16,9 +17,7 @@ const MainNavigation = () => {
         </div> */}
         <img src={logoIcon}/>
         </NavLink>
-        <NavLink to="/categories" activeClassName={classes.active}>
-          Categories
-        </NavLink>
+        <CategoryDropdown/>
         <form className={classes.search_bar}>
           <input placeholder="Search..."></input>
         </form>

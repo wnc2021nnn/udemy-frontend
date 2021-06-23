@@ -2,7 +2,6 @@ import "./App.css";
 import Layout from "./components/layout/Layout";
 import { Route, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import CategoryPage from "./pages/CategoryPage";
 function App() {
   return (
     <div className="App">
@@ -10,9 +9,6 @@ function App() {
         <Switch>
         <Route path="/" exact>
             <HomePage />
-          </Route>
-          <Route path="/categories" exact>
-            <CategoryPage />
           </Route>
           
         </Switch>
