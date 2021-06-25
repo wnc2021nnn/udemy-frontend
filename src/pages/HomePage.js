@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from "react"
 import MainPanel from "../components/MainPanel/MainPanel"
 import {useDispatch, useSelector} from "react-redux"
-import {fetchCourses, fetchMostViewCourses, fetchNewestCourses, fetchHighlightCourses} from "../store/slices/coursesSlice"
+import {fetchMostViewCourses, fetchNewestCourses, fetchHighlightCourses} from "../store/slices/coursesSlice"
 import ListCourses from "../components/Courses/ListCourses.js";
-import { fetchCategoriesList } from "../store/slices/categoriesSlice";
+import HotCategories from "../components/Category/HotCategories"
+
 const HomePage = () =>{
 
     const dispatch = useDispatch();
@@ -20,11 +21,9 @@ const HomePage = () =>{
     return (
         <Fragment>
             <MainPanel/>
-            {/* <ListCourses title="Most populars" listItemCourse = {listMostPopularCourse}/>  */}
-            <ListCourses title="Most view courses" listItemCourse = {listMostViewCourses}/>
+            <ListCourses title="Most View courses" listItemCourse = {listMostViewCourses}/>
             <ListCourses title="Latest Courses" listItemCourse = {listNewestCourses}/> 
-            <ListCourses title="Latest Courses" listItemCourse = {listNewestCourses}/> 
-{/* <ListCourses title="Most populars" listItemCourse = {listMostPopularCourse}/>  */}
+            <HotCategories/>
         </Fragment>
 )
 }

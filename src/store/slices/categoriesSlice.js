@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Status from "../../constants/status-constants";
-import { getAllCategories } from "../../api/api-categories";
+import { getAllCategories, getTopics } from "../../api/api-categories";
+
+
+const FETCH_HOT_TOPICS_PARAMS = {
+    sort: "register_des"
+}
 /**
  * Categories Initial state 
  */
@@ -11,8 +16,22 @@ const initialState = {
             status: "",
             message: ""
         }
+    },
+    listHotTopic:{
+        entities: [],
+        status: {
+            status: "",
+            message: ""
+        }
     }
 }
+
+export const fetchHotTopicList = createAsyncThunk(
+    "categories/fetchHotTopicList", async () =>{
+        const res = await getTopics(FETCH_HOT_TOPICS_PARAMS);
+        return res.data.data;
+    }
+)
 
 
 export const fetchCategoriesList = createAsyncThunk(
