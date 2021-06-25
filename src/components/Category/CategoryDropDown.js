@@ -10,14 +10,13 @@ const CategoryDropdown = () => {
   const listCategory = useSelector(
     (state) => state.categories.listCategory.entities
   );
-  console.log("List category: ", listCategory, classes.buttonDropdowmn);
 
   const listCategoryJSX = listCategory.map((category) => {
     const listTopic = category.topics.map((topic) => {
-      return <Dropdown.Item>{topic.title}</Dropdown.Item>
+      return <Dropdown.Item key={topic.topic_id}>{topic.title}</Dropdown.Item>
     });
     return (
-      <Dropdown.Item onClick={() => {}}>
+      <Dropdown.Item onClick={() => {}} key={category.category_id}>
         {category.title}
         <Dropdown.Submenu position="right" className={classes.submenu}>
           {listTopic}
