@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import Status from "../../constants/status-constants";
+import { Util } from "../../constants/util-constants";
 import { userLogin } from "../../store/slices/userSlice";
 import { verifyEmail } from "../../utils/auth/verify";
 import Loader from "../UI/Loader";
@@ -49,8 +50,7 @@ export default function Login(props) {
   }
   useEffect(()=>{
     if(userInform.status.status===Status.SUCCESS_STATUS){
-      console.log(userLogin);
-      console.log(props);
+      localStorage.setItem(Util.ACCESS_TOKEN, userInform.user.access_token);
       history.push(from.pathname);
     }
   }, [userInform.status.status])

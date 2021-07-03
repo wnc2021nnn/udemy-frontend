@@ -5,8 +5,15 @@ import favoriteIcon from "../../assets/icons/favorite.svg";
 import notificationIcon from "../../assets/icons/notification.svg";
 import logoIcon from "../../assets/icons/Logo.svg"
 import CategoryDropdown from "../Category/CategoryDropDown";
+import SignButton from "../UI/Button/SignButton";
+import { useSelector } from "react-redux";
+import { getToken } from "../../utils/auth/verify";
+import Status from "../../constants/status-constants";
 
 const MainNavigation = () => {
+
+  const loginInform = useSelector((state) => state.user.userInform);
+  const isLogin = loginInform.status.status === Status.SUCCESS_STATUS || getToken();
   return (
     <React.Fragment>
       <nav className={classes.nav}>
@@ -31,9 +38,9 @@ const MainNavigation = () => {
         <NavLink to="/notification" activeClassName={classes.active}>
           <img src={notificationIcon} />
         </NavLink>
-        <NavLink to="/profile" activeClassName={classes.active}>
+        {isLogin? <NavLink to="/profile" activeClassName={classes.active}>
           Profile
-        </NavLink>
+        </NavLink> :<SignButton/>}
       </nav>
     </React.Fragment>
   );

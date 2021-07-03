@@ -31,7 +31,7 @@ const MainPanel = () => {
   return (
     <Fragment>  
       {/* <div className={classes.root}> */}
-        <Slide easing="ease" autoplay="false"  className={classes.root}> 
+        <Slide easing="ease"  className={classes.root}> 
           {listHighlightCoursesJSX}
         </Slide>
       {/* </div> */}

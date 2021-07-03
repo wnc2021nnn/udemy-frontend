@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllCourses } from "../../api/api-courses";
+import { getAllCourses, getRelatedCourses } from "../../api/api-courses";
 import Status from "../../constants/status-constants";
 
 const LIMIT_ENTITIES = 10;
@@ -18,6 +18,8 @@ const COURSES_HIGHLIGHTS = {
   sort: "view_from_last_week_des",
   limit: 4
 }
+
+
 
 const initialState = {
   listCourses: {
@@ -65,7 +67,7 @@ const sendAPIRequest = async (params) => {
  */
 export const fetchCourses = createAsyncThunk(
   "courses/fetchCourses",
-  async () => await sendAPIRequest()
+  async (params) => await sendAPIRequest(params)
 );
 
 /**
@@ -88,6 +90,7 @@ export const fetchHighlightCourses = createAsyncThunk(
   "courses/fetchHighlightCourses",
   async () => await sendAPIRequest(COURSES_HIGHLIGHTS)
 );
+
 
 const courseSlice = createSlice({
   name: "courses",
