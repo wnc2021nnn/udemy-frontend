@@ -17,4 +17,21 @@ export const getAllCourses = async (params) =>{
     return res;
 }
 
+/**
+ * Get related courses
+ * @param {string} course_id Course id
+ * @param {object} params 
+ * @param {string} params.sort registes_des
+ * @param {string} params.limit limit
+ * @returns response
+ */
+export const getRelatedCourses = async (course_id, params) =>{
+    const axiosIntance = AxiosIntance();
+    const res = await axiosIntance.get(`${APIPath.GET_ALL_COURSES}/${course_id}/related-courses`, {params:params});
+    return res;
+}
+
+
+//export const getCourseById = async 
+
  

@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./CoursePanel.module.css";
 import startIcon from "../../assets/icons/star.svg";
-import Card from "../UI/Card";
 const CoursePanel = (props) => {
   const courseItem = props.courseItem;
 
@@ -17,6 +16,8 @@ const CoursePanel = (props) => {
             </div>
             <div>{`${courseItem.rating_total} reviews`}</div>
           </div>
+          <div>{courseItem.price}$</div>
+
         </div>
     </div>
   );
