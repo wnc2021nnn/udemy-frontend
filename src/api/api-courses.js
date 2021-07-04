@@ -1,37 +1,50 @@
-import AxiosIntance from "../config/api-config"
-import APIPath from "../constants/api-constants/api-path"
-
+import AxiosIntance from "../config/api-config";
+import APIPath from "../constants/api-constants/api-path";
 
 /**
- * 
- * @param {Object} params 
+ *
+ * @param {Object} params
  * @param params.sort
  * @param params.limit
  * @param params.search
  * @param params.topic
  * @returns get courses response
  */
-export const getAllCourses = async (params) =>{
-    const axiosIntance = AxiosIntance();
-    const res = await axiosIntance.get(APIPath.GET_ALL_COURSES, {params: params});
-    return res;
-}
+export const getAllCourses = async (params) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(APIPath.GET_ALL_COURSES, {
+    params: params,
+  });
+  return res;
+};
 
 /**
  * Get related courses
  * @param {string} course_id Course id
- * @param {object} params 
+ * @param {object} params
  * @param {string} params.sort registes_des
  * @param {string} params.limit limit
  * @returns response
  */
-export const getRelatedCourses = async (course_id, params) =>{
-    const axiosIntance = AxiosIntance();
-    const res = await axiosIntance.get(`${APIPath.GET_ALL_COURSES}/${course_id}/related-courses`, {params:params});
-    return res;
-}
+export const getRelatedCourses = async (course_id, params) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(
+    `${APIPath.GET_ALL_COURSES}/${course_id}/related-courses`,
+    { params: params }
+  );
+  return res;
+};
 
+export const getCourseById = async (course_id) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(`${APIPath.GET_ALL_COURSES}/${course_id}`);
+  return res;
+};
 
-//export const getCourseById = async 
-
- 
+export const getCourseReviews = async (course_id) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(APIPath.GET_COURSE_REVIEWS, {
+    params: { course_id: course_id },
+  });
+  return res;
+};

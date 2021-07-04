@@ -1,0 +1,102 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.course {
+  color: white;
+  display: flex;
+  margin: 1rem 1rem;
+  background-color: #5c5c5c;
+  padding: 2rem 10rem;
+  border-radius: 10px;
+  width: auto;
+}
+
+.courseInfor {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: start;
+  flex: 1.5;
+}
+
+.rating {
+  display: flex;
+}
+
+.meta {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.wishButton {
+  color: white;
+  background-color: #5598f1;
+  display: flex;
+  width: 7rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.courseShow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: auto;
+}
+
+.image {
+  width: 350px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.courseShow button {
+  color: white;
+  width: 100%;
+  padding: 1rem 0rem;
+  background-color: #5598f1;
+  border-radius: 5px;
+}
+
+.detail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: start;
+  margin: 0rem 1rem 0 1rem;
+  padding: 0 10rem 0 10rem;
+}
+
+.information {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.courseContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.lectuterInfor {
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+  align-items: center;
+}
+
+.imageLectuter {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
