@@ -6,6 +6,7 @@ const APIPath = {
   USERS: "/users",
   LOGIN: "/auth",
   GET_COURSE_REVIEWS: "/course-reviews",
+  WATCH_LIST: "watch-list",
 };
 
 export default APIPath;

@@ -8,6 +8,7 @@ import PrivateRoute from "./components/Route/PrivateRoute";
 import MyLearningPage from "./pages/MyLearningPage";
 import CategoryPage from "./pages/CategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
+import Snackbar from "../src/components/UI/Snackbar/Snackbar";
 function App() {
   return (
     <div className="App">
@@ -28,7 +29,7 @@ function App() {
             component={MyLearningPage}
           ></PrivateRoute>
           <Route path="/courses/:course_id">
-            <CourseDetailPage/>
+            <CourseDetailPage />
           </Route>
         </Switch>
       </Layout>
@@ -38,6 +39,7 @@ function App() {
       <Route path="/register">
         <RegisterPage />
       </Route>
+      <Snackbar />
     </div>
   );
 }
