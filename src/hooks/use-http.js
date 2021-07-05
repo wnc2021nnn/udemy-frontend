@@ -1,6 +1,6 @@
 import { useReducer, useCallback } from "react";
-import {ResponseConstant} from '../constants/response-constant'
-import {ActionConstant, StatusConstant} from '../constants/reducer-constant'
+import { ResponseConstant } from "../constants/response-constant";
+import { ActionConstant, StatusConstant } from "../constants/reducer-constant";
 const httpReducer = (state, action) => {
   if (action.type === ActionConstant.HTTP_ACTION_SEND)
     return {
@@ -25,27 +25,33 @@ const httpReducer = (state, action) => {
 };
 
 const useHttp = (requestFunction, startWithPending = false) => {
-    const [httpState, dispatch] = useReducer(httpReducer, {
-        status: startWithPending? StatusConstant.HTTP_STATUS_PENDING : null,
-        data: null,
-        error: null
-    })
-    const sendRequest = useCallback(
-        async (requestData) => {
-            dispatch({type: ActionConstant.HTTP_ACTION_SEND});
-            try {
-                const responseData = await requestFunction(requestData);
-                dispatch({type: ActionConstant.HTTP_ACTION_SUCCESS, responseData})
-            } catch (error) {
-                dispatch({type: ActionConstant.HTTP_ACTION_ERROR, errorMessage: error.message || ResponseConstant.UNEXPECTED_ERROR})
-            }
-        },
-        [requestFunction]
-    );
-    return {
-        sendRequest,
-        ...httpState,
-    }
-}
+  const [httpState, dispatch] = useReducer(httpReducer, {
+    status: startWithPending ? StatusConstant.HTTP_STATUS_PENDING : null,
+    data: null,
+    error: null,
+  });
+  const sendRequest = useCallback(
+    async (requestData) => {
+      dispatch({ type: ActionConstant.HTTP_ACTION_SEND });
+      try {
+        const responseData = await requestFunction(requestData);
+        dispatch({
+          type: ActionConstant.HTTP_ACTION_SUCCESS,
+          responseData: responseData.data,
+        });
+      } catch (error) {
+        dispatch({
+          type: ActionConstant.HTTP_ACTION_ERROR,
+          errorMessage: error.message || ResponseConstant.UNEXPECTED_ERROR,
+        });
+      }
+    },
+    [requestFunction]
+  );
+  return {
+    sendRequest,
+    httpState,
+  };
+};
 
 export default useHttp;

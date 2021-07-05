@@ -1,3 +1,3 @@
 export const ResponseConstant = {
-    UNEXPECTED_ERROR = "Something went wrong",
-}
+  UNEXPECTED_ERROR: "Something went wrong",
+};
