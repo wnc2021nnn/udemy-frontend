@@ -9,7 +9,6 @@ const CourseItem = (props) => {
   const courseItem = props.courseItem;
 
   const courseItemClickHandler = () => {
-    console.log("Click course", courseItem.course_id);
     history.push(`/courses/${courseItem.course_id}`);
   };
 
