@@ -4,6 +4,7 @@ import {
   getRelatedCourses,
   getCourseById,
   getCourseReviews,
+  purchasesCourse,
 } from "../../api/api-courses";
 import CourseItem from "../../components/Courses/CourseItem";
 import classes from "./CourseDetail.module.css";
@@ -92,6 +93,21 @@ export default function CourseDetail(props) {
         })
       );
   };
+  const purchasesCourseAPI = () => {
+    purchasesCourse({ item_id: course_id })
+      .then((res) => {
+        setStatusComponent({
+          status: Status.SUCCESS_STATUS,
+          message: "Mua khoá học thành công!",
+        });
+      })
+      .catch((err) =>
+        setStatusComponent({
+          status: Status.FAILED_STATUS,
+          message: err.message,
+        })
+      );
+  };
 
   const clickAddWatchListHandler = (event) => {
     event.preventDefault();
@@ -103,6 +119,17 @@ export default function CourseDetail(props) {
         })
       );
     } else addWatchListAPI();
+  };
+
+  const clickBuyCourseHandler = () => {
+    if (!getToken()) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng đăng nhập!",
+          status: Status.FAILED_STATUS,
+        })
+      );
+    } else purchasesCourseAPI();
   };
 
   const relatedCoursesListJSX = relatedCourses.map((courseItem) => {
@@ -152,7 +179,7 @@ export default function CourseDetail(props) {
               className={classes.image}
             />
             <h4>${courseDetail.price}</h4>
-            <button>Buy now</button>
+            <button onClick={clickBuyCourseHandler}>Buy now</button>
           </div>
         </div>
         <div className={classes.detail}>

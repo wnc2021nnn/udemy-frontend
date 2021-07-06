@@ -48,3 +48,9 @@ export const getCourseReviews = async (course_id) => {
   });
   return res;
 };
+
+export const purchasesCourse = async (body) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(APIPath.PURCHASES, body);
+  return res;
+};
