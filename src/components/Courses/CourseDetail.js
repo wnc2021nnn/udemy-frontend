@@ -136,7 +136,9 @@ export default function CourseDetail(props) {
     return <CourseItem key={courseItem.course_id} courseItem={courseItem} />;
   });
 
-  const reviewsJSX = reviews.map((item) => <Review review={item} />);
+  const reviewsJSX = reviews.map((item) => (
+    <Review key={item.created_at} review={item} />
+  ));
 
   useEffect(() => {
     getRelatedCourseAPI();

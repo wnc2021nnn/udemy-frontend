@@ -38,9 +38,48 @@ const AxiosIntance = () => {
       // Edit response config
       return response;
     },
-    (error) => {
-      console.log(error);
-      return Promise.reject(error);
+    (err) => {
+      console.log("Error ", err.response);
+      return new Promise((resolve, reject) => {
+        const originalReq = err.config;
+        if (
+          err.response.status === 401 &&
+          err.config &&
+          !err.config.__isRetryRequest
+        ) {
+          originalReq._retry = true;
+          let res = fetch("https://wnc2021be.herokuapp.com/api/auth/refresh", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+              Device: "device",
+              Token: localStorage.getItem("token"),
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({
+              access_token: localStorage.getItem(Util.ACCESS_TOKEN),
+              refresh_token: localStorage.getItem(Util.REFRESH_TOKEN),
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              console.log(res.data);
+              // this.setSession({ token: res.token, refresh_token: res.refresh });
+              localStorage.setItem(Util.ACCESS_TOKEN, res.data);
+              originalReq.headers["x-access-token"] = res.data;
+
+              return instance(originalReq);
+            });
+
+          resolve(res);
+        }
+
+        return Promise.reject(err);
+      });
     }
   );
   return instance;

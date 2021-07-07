@@ -1,4 +1,4 @@
 export const Util = {
-  ACCESS_TOKEN: "x-access-token",
+  ACCESS_TOKEN: "access-token",
   REFRESH_TOKEN: "refreshToken",
 };
