@@ -54,3 +54,11 @@ export const purchasesCourse = async (body) => {
   const res = await axiosIntance.put(APIPath.PURCHASES, body);
   return res;
 };
+
+export const getCourseContent = async (course_id) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(
+    `${APIPath.GET_ALL_COURSES}/${course_id}${APIPath.GET_COURSE_CONTENT}`
+  );
+  return res;
+};
