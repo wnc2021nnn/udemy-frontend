@@ -9,6 +9,7 @@ import MyLearningPage from "./pages/MyLearningPage";
 import CategoryPage from "./pages/CategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import Snackbar from "../src/components/UI/Snackbar/Snackbar";
+import CourseStudyPage from "./pages/CourseStudyPage";
 function App() {
   return (
     <div className="App">
@@ -17,7 +18,7 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          <Route path="/category/:topic_id">
+          <Route path="/category/:topic_id/">
             <CategoryPage />
           </Route>
           <PrivateRoute
@@ -28,6 +29,7 @@ function App() {
             path="/profile"
             component={MyLearningPage}
           ></PrivateRoute>
+          <PrivateRoute path="/learn/:course_id" component={CourseStudyPage} />
           <Route path="/courses/:course_id">
             <CourseDetailPage />
           </Route>

@@ -7,7 +7,14 @@ export default function Review(props) {
   return (
     <div
       style={{
-        width: "60%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        marginTop: "1rem",
+        border: "1px black solid",
+        borderRadius: "10px",
+        padding: "0.5rem 1rem 0.5rem 1rem",
       }}
     >
       <div>{`${review.first_name} ${review.last_name}`}</div>
@@ -15,6 +22,8 @@ export default function Review(props) {
         style={{
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
         }}
       >
         <div style={{ display: "flex", padding: "0.5rem 0" }}>

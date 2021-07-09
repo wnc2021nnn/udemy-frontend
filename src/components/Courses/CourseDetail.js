@@ -1,10 +1,11 @@
-import { useHistory, useParams, useRouteMatch } from "react-router";
+import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import {
   getRelatedCourses,
   getCourseById,
   getCourseReviews,
   purchasesCourse,
+  getCourseContent,
 } from "../../api/api-courses";
 import CourseItem from "../../components/Courses/CourseItem";
 import classes from "./CourseDetail.module.css";
@@ -20,6 +21,8 @@ import { useDispatch } from "react-redux";
 import { setStatus } from "../../store/slices/statusSlice";
 import { getToken } from "../../utils/auth/verify";
 import { addWatchList } from "../../api/api-watchlist";
+import CourseContent from "./CourseContent";
+import { showTime } from "../../utils/timeUtil";
 
 const RELATED_COURSES_PARAM = {
   sort: "registed_des",
@@ -31,11 +34,14 @@ export default function CourseDetail(props) {
   const [relatedCourses, setRelatedCourses] = useState([]);
   const [courseDetail, setCourseDetail] = useState({});
   const [reviews, setReviews] = useState([]);
+  const [courseContent, setCourseContent] = useState({
+    chapters: [],
+    lessons: [],
+  });
   const [statusComponent, setStatusComponent] = useState({
     status: "",
     message: "",
   });
-  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -109,6 +115,12 @@ export default function CourseDetail(props) {
       );
   };
 
+  const getCourseContentAPI = () => {
+    getCourseContent(course_id).then((res) => {
+      setCourseContent(res.data.data);
+    });
+  };
+
   const clickAddWatchListHandler = (event) => {
     event.preventDefault();
     if (!getToken()) {
@@ -144,7 +156,9 @@ export default function CourseDetail(props) {
     getRelatedCourseAPI();
     getDetailCourseAPI();
     getCourseReviewsAPI();
+    getCourseContentAPI();
   }, [course_id]);
+  console.log(courseContent);
 
   return (
     <Fragment>
@@ -152,7 +166,7 @@ export default function CourseDetail(props) {
         <div className={classes.course}>
           <div className={classes.courseInfor}>
             <h2>{courseDetail.title}</h2>
-            <h4>{courseDetail.description}</h4>
+            <h3>{courseDetail.description}</h3>
             <div className={classes.meta}>
               <div className={classes.rating}>
                 <div>{courseDetail.rating}</div>
@@ -163,8 +177,11 @@ export default function CourseDetail(props) {
               <div>120 hours</div>
             </div>
             <div>
-              <div>Last update 01/2021</div>
-              <h4>Created by Le Chi Nhin</h4>
+              <div>Last update {showTime(courseDetail.updated_at)}</div>
+              <h4>
+                Created by{" "}
+                {`${courseDetail.lecturer_last_name} ${courseDetail.lecturer_first_name}`}
+              </h4>
             </div>
             <button
               className={classes.wishButton}
@@ -180,18 +197,18 @@ export default function CourseDetail(props) {
               alt={courseDetail.course_id}
               className={classes.image}
             />
-            <h4>${courseDetail.price}</h4>
+            <h3>${courseDetail.price}</h3>
             <button onClick={clickBuyCourseHandler}>Buy now</button>
           </div>
         </div>
         <div className={classes.detail}>
           <div className={classes.information}>
             <div>
-              <h4>Full description</h4>
+              <h3>Full description</h3>
               <p>{courseDetail.description}</p>
             </div>
             <div>
-              <h4>Lectuter</h4>
+              <h3>Lectuter</h3>
               <div className={classes.lectuterInfor}>
                 <Image src="" alt="" className={classes.imageLectuter} />
                 <div style={{}}>
@@ -220,7 +237,7 @@ export default function CourseDetail(props) {
               </div>
             </div>
             <div style={{ marginTop: "1rem" }}>
-              <h4>Reviews</h4>
+              <h3>Reviews</h3>
               {reviewsJSX}
             </div>
             <div>
@@ -231,7 +248,8 @@ export default function CourseDetail(props) {
             </div>
           </div>
           <div className={classes.courseContent}>
-            <h4>Course content</h4>
+            <h3>Course content</h3>
+            <CourseContent courseContent={courseContent} isPreview={true} />
           </div>
         </div>
       </div>
