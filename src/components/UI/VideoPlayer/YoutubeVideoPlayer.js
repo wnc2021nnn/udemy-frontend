@@ -3,11 +3,11 @@ import { getIdVideoYoutube } from "../../../utils/videoUtil";
 export default function YouTubeVideoPlayer(props) {
   const id = getIdVideoYoutube(props.url);
   const url = `https://www.youtube.com/embed/${id}`;
-
+  console.log(url);
   return (
     <iframe
-      width="560"
-      height="315"
+      width={props.width}
+      height={props.height}
       src={url}
       title="YouTube video player"
       frameBorder="0"

@@ -6,6 +6,9 @@ import YouTubeVideoPlayer from "../UI/VideoPlayer/YoutubeVideoPlayer";
 
 export default function CourseContent(props) {
   const { lessons, chapters } = props.courseContent;
+  const isPreview = props.isPreview;
+  const onLessonClick = props.onLessonClick;
+  const lessonActiveId = props.lessonActiveId;
   let index = 1;
   const content = chapters.map((chapter) => {
     const listLesson = lessons.filter(
@@ -28,11 +31,12 @@ export default function CourseContent(props) {
     });
   };
 
-  console.log(active);
+  const onLessonClickHandler = (lesson) => {
+    if (onLessonClick) onLessonClick(lesson);
+  };
 
   const courseContentJSX = content.map((contentItem) => {
     const chapter = contentItem.chapter;
-    console.log(chapter.chapter_id, active[chapter.chapter_id]);
     return (
       <div className={classes.chapter} key={chapter.chapter_id}>
         <div
@@ -57,10 +61,21 @@ export default function CourseContent(props) {
         >
           {chapter.lessons.map((lesson) => {
             return (
-              <div className={classes.lesson} key={lesson.lesson_id}>
+              <div
+                className={classes.lesson}
+                key={lesson.lesson_id}
+                onClick={() => onLessonClickHandler(lesson)}
+                style={
+                  lessonActiveId === lesson.lesson_id ? { color: "blue" } : {}
+                }
+              >
                 {index++}. {lesson.title}
-                {index % 5 === 0 && (
-                  <YouTubeVideoPlayer url={lesson.video_link} />
+                {isPreview && index % 5 === 0 && (
+                  <YouTubeVideoPlayer
+                    url={lesson.video_link}
+                    width="560"
+                    height="315"
+                  />
                 )}
               </div>
             );

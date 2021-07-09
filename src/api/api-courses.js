@@ -62,3 +62,15 @@ export const getCourseContent = async (course_id) => {
   );
   return res;
 };
+
+export const reviewCourse = async (body) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(APIPath.PUT_REVIEW_COURSE, body);
+  return res;
+};
+
+export const sendLog = async (body) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(APIPath.LOG, body);
+  return res;
+};

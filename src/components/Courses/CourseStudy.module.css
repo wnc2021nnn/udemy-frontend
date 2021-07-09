@@ -1,0 +1,34 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.courseDetail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.infor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tag {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.tag div {
+  padding: 0 1rem 0 1rem;
+  border-bottom: #c4c4c4 2px solid;
+  cursor: pointer;
+}
+
+.tag .activeTag {
+  border-bottom: #2f80ed 2px solid;
+}

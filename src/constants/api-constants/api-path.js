@@ -9,6 +9,8 @@ const APIPath = {
   WATCH_LIST: "/watch-list",
   PURCHASES: "/purchases",
   GET_COURSE_CONTENT: "/content",
+  PUT_REVIEW_COURSE: "/course-reviews",
+  LOG: "/logs",
 };
 
 export default APIPath;

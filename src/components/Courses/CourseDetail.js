@@ -1,4 +1,4 @@
-import { useHistory, useParams, useRouteMatch } from "react-router";
+import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import {
   getRelatedCourses,
@@ -42,7 +42,6 @@ export default function CourseDetail(props) {
     status: "",
     message: "",
   });
-  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -250,7 +249,7 @@ export default function CourseDetail(props) {
           </div>
           <div className={classes.courseContent}>
             <h3>Course content</h3>
-            <CourseContent courseContent={courseContent} />
+            <CourseContent courseContent={courseContent} isPreview={true} />
           </div>
         </div>
       </div>
