@@ -4,9 +4,21 @@ import Card from "../UI/Card";
 import classes from "./CourseItem.module.css";
 import Image from "../UI/Image/Image";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 const CourseItem = (props) => {
   const history = useHistory();
   const courseItem = props.courseItem;
+  const topicTitle = useSelector((state) => {
+    const listCategory = state.categories.listCategory.entities;
+    for (let i = 0; i < listCategory.length; i++) {
+      const element = listCategory[i];
+      for (let j = 0; j < element.topics.length; j++) {
+        if (element.topics[j].topic_id === courseItem.topic_id)
+          return element.topics[j].title;
+      }
+    }
+  });
+  console.log("Topic title", topicTitle);
 
   const courseItemClickHandler = () => {
     console.log("Click course", courseItem.course_id);
@@ -35,6 +47,7 @@ const CourseItem = (props) => {
           </div>
         </div>
         <div>{courseItem.price}$</div>
+        <div>{topicTitle}</div>
       </div>
     </Card>
   );
