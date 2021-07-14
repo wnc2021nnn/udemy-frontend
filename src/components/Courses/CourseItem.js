@@ -18,10 +18,8 @@ const CourseItem = (props) => {
       }
     }
   });
-  console.log("Topic title", topicTitle);
 
   const courseItemClickHandler = () => {
-    console.log("Click course", courseItem.course_id);
     history.push(`/courses/${courseItem.course_id}`);
   };
 

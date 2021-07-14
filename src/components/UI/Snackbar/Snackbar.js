@@ -13,7 +13,6 @@ export default function Snackbar(props) {
   const dispatch = useDispatch();
   useEffect(() => {
     setClassStyle(`${classes.snackbar} ${classes.show}`);
-    console.log(status, message);
     switch (status) {
       case Status.LOADING_STATUS:
         setStyle({ backgroundColor: "yellow" });
@@ -29,8 +28,8 @@ export default function Snackbar(props) {
         break;
     }
     const timer = setTimeout(() => {
-      dispatch(setStatus({ message: "", status: "" }));
       setClassStyle(`${classes.snackbar}`);
+      dispatch(setStatus({ message: "", status: "" }));
     }, 5000);
     return () => clearTimeout(timer);
   }, [status, message]);

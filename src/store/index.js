@@ -3,6 +3,7 @@ import coursesSlice from "./slices/coursesSlice";
 import categoriesSlice from "./slices/categoriesSlice";
 import userSlice from "./slices/userSlice";
 import statusSlice from "./slices/statusSlice";
+import watchlistSlice from "./slices/watchlistSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     categories: categoriesSlice,
     user: userSlice,
     status: statusSlice,
+    watchlist: watchlistSlice,
   },
 });
 

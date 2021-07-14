@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  status: "123",
-  message: "123",
+  status: "",
+  message: "",
 };
 
 const statusSlice = createSlice({

@@ -8,7 +8,6 @@ export default function PostCourse(props) {
   const onChangeHandler = (value) => {
     setFullDescription(value);
   };
-  console.log(fullDescription);
   return (
     <div className={classes.wrapper}>
       <h3>Course name</h3>

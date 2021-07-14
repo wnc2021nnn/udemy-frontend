@@ -10,10 +10,12 @@ const AxiosIntance = () => {
     header = {
       "x-access-token": TOKEN,
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     };
   } else {
     header = {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     };
   }
 
@@ -35,6 +37,7 @@ const AxiosIntance = () => {
   instance.interceptors.response.use(
     (response) => {
       console.log("Response ", response);
+
       // Edit response config
       return response;
     },

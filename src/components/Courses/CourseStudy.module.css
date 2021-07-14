@@ -32,3 +32,7 @@
 .tag .activeTag {
   border-bottom: #2f80ed 2px solid;
 }
+
+.courseInfor {
+  width: 100%;
+}
