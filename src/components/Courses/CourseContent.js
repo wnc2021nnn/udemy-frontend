@@ -71,11 +71,13 @@ export default function CourseContent(props) {
               >
                 {index++}. {lesson.title}
                 {isPreview && index % 5 === 0 && (
-                  <YouTubeVideoPlayer
-                    url={lesson.video_link}
-                    width="560"
-                    height="315"
-                  />
+                  <div style={{ borderRadius: "10px" }}>
+                    <YouTubeVideoPlayer
+                      url={lesson.video_link}
+                      width="560"
+                      height="315"
+                    />
+                  </div>
                 )}
               </div>
             );
