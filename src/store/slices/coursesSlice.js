@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllCourses, getRelatedCourses } from "../../api/api-courses";
+import {
+  getAllCourses,
+  getMyCourse,
+  getRelatedCourses,
+} from "../../api/api-courses";
 import Status from "../../constants/status-constants";
 
 const LIMIT_ENTITIES = 10;
@@ -9,17 +13,14 @@ const MOST_VIEW_COURSES_PARAMS = {
 };
 
 const NEWEST_COURSES_WEEK_PARAMS = {
-    sort: "created_date_des",
-    limit: LIMIT_ENTITIES,
-  };
-
+  sort: "created_date_des",
+  limit: LIMIT_ENTITIES,
+};
 
 const COURSES_HIGHLIGHTS = {
   sort: "view_from_last_week_des",
-  limit: 4
-}
-
-
+  limit: 4,
+};
 
 const initialState = {
   listCourses: {
@@ -50,12 +51,19 @@ const initialState = {
       message: "",
     },
   },
+  myCourses: {
+    entities: [],
+    status: {
+      status: "",
+      message: "",
+    },
+  },
 };
 
 /**
  * send API request for courses
- * @param {*} params 
- * @returns 
+ * @param {*} params
+ * @returns
  */
 const sendAPIRequest = async (params) => {
   const response = await getAllCourses(params);
@@ -91,6 +99,13 @@ export const fetchHighlightCourses = createAsyncThunk(
   async () => await sendAPIRequest(COURSES_HIGHLIGHTS)
 );
 
+export const fetchMyCourses = createAsyncThunk(
+  "courses/fetchMyCourses",
+  async () => {
+    const res = await getMyCourse();
+    return res;
+  }
+);
 
 const courseSlice = createSlice({
   name: "courses",
@@ -154,6 +169,20 @@ const courseSlice = createSlice({
         state.listHighlightCourses.status.status = Status.FAILED_STATUS;
         state.listHighlightCourses.status.message = action.error.message;
       })
+      // Get my couses
+      .addCase(fetchMyCourses.pending, (state, action) => {
+        state.listHighlightCourses.status.status = Status.LOADING_STATUS;
+        state.listHighlightCourses.status.message = "Fetching all courses!";
+      })
+      .addCase(fetchMyCourses.fulfilled, (state, action) => {
+        state.listHighlightCourses.status.status = Status.SUCCESS_STATUS;
+        state.listHighlightCourses.message = "Get all course successfuly!";
+        state.listHighlightCourses.entities = action.payload;
+      })
+      .addCase(fetchMyCourses.rejected, (state, action) => {
+        state.listHighlightCourses.status.status = Status.FAILED_STATUS;
+        state.listHighlightCourses.status.message = action.error.message;
+      });
   },
 });
 

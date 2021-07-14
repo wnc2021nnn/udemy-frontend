@@ -77,7 +77,6 @@ export default function CourseStudy() {
         );
       })
       .catch((err) => {
-        console.log(err.response);
         dispatch(
           setStatus({
             status: Status.FAILED_STATUS,
@@ -96,7 +95,6 @@ export default function CourseStudy() {
   };
 
   const reviewOnChangeHandler = (name, newValue) => {
-    console.log(newValue);
     setReview((prevState) => {
       return {
         ...prevState,
@@ -104,7 +102,6 @@ export default function CourseStudy() {
       };
     });
   };
-  console.log(review);
 
   const reviewTest = {
     course_id: "course_000002",
@@ -200,7 +197,7 @@ export default function CourseStudy() {
                 }}
               >
                 <input
-                  style={{ padding: "1rem 1rem 1rem 1rem", width: "100%" }}
+                  style={{ padding: "1rem 1rem 1rem 1rem", width: "80%" }}
                   placeholder="Write review..."
                   onChange={(event) => {
                     reviewOnChangeHandler("reviews_text", event.target.value);

@@ -74,3 +74,9 @@ export const sendLog = async (body) => {
   const res = await axiosIntance.put(APIPath.LOG, body);
   return res;
 };
+
+export const getMyCourse = async () => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.get(APIPath.GET_MY_COURSES);
+  return res;
+};

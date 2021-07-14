@@ -11,6 +11,7 @@ const APIPath = {
   GET_COURSE_CONTENT: "/content",
   PUT_REVIEW_COURSE: "/course-reviews",
   LOG: "/logs",
+  GET_MY_COURSES: "/courses/my-courses",
 };
 
 export default APIPath;

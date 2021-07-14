@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import {
   getRelatedCourses,
@@ -17,12 +17,13 @@ import playIcon from "../../assets/icons/playIcon.svg";
 import Review from "../Review/Review";
 import { Fragment } from "react";
 import Status from "../../constants/status-constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setStatus } from "../../store/slices/statusSlice";
 import { getToken } from "../../utils/auth/verify";
 import { addWatchList } from "../../api/api-watchlist";
 import CourseContent from "./CourseContent";
 import { showTime } from "../../utils/timeUtil";
+import { getUserById } from "../../api/user-api";
 
 const RELATED_COURSES_PARAM = {
   sort: "registed_des",
@@ -30,6 +31,7 @@ const RELATED_COURSES_PARAM = {
 };
 export default function CourseDetail(props) {
   const params = useParams();
+  const history = useHistory();
   const course_id = params.course_id;
   const [relatedCourses, setRelatedCourses] = useState([]);
   const [courseDetail, setCourseDetail] = useState({});
@@ -38,15 +40,22 @@ export default function CourseDetail(props) {
     chapters: [],
     lessons: [],
   });
+  const [lecturer, setLecturer] = useState({});
   const [statusComponent, setStatusComponent] = useState({
     status: "",
     message: "",
   });
-  const dispatch = useDispatch();
+  const addedWatchList = useSelector((state) =>
+    state.watchlist.listCourse.filter((item) => item.course_id == course_id)
+  );
 
+  const dispatch = useDispatch();
+  console.log("add watch list", addedWatchList);
   useEffect(() => {
+    console.log("Set status", statusComponent);
     dispatch(setStatus(statusComponent));
   }, [statusComponent]);
+  console.log(statusComponent, addedWatchList);
 
   const review = {
     course_id: "course_000002",
@@ -57,6 +66,11 @@ export default function CourseDetail(props) {
     course_review_id: "3665243d-96a6-4d4d-a561-0f17adcb705e",
     first_name: "Ngyen",
     last_name: "Le",
+  };
+  const getLectuterAPI = (userId) => {
+    getUserById(userId).then((res) => {
+      setLecturer(res.data.data);
+    });
   };
   const getRelatedCourseAPI = () => {
     getRelatedCourses(course_id, RELATED_COURSES_PARAM)
@@ -74,6 +88,7 @@ export default function CourseDetail(props) {
     getCourseById(course_id)
       .then((res) => {
         setCourseDetail(res.data.data);
+        getLectuterAPI(res.data.data.lecturer_id);
       })
       .catch((err) => console.error(err));
   };
@@ -87,10 +102,16 @@ export default function CourseDetail(props) {
   const addWatchListAPI = () => {
     addWatchList(course_id)
       .then((res) => {
-        setStatusComponent({
-          message: "Thêm khoá học vào Watch List thành công",
-          status: Status.SUCCESS_STATUS,
-        });
+        if (res.status === 200)
+          setStatusComponent({
+            message: "Thêm khoá học vào Watch List thành công",
+            status: Status.SUCCESS_STATUS,
+          });
+        else
+          setStatusComponent({
+            message: "Khoá học đã có trong Watch List",
+            status: Status.FAILED_STATUS,
+          });
       })
       .catch((err) =>
         setStatusComponent({
@@ -102,10 +123,7 @@ export default function CourseDetail(props) {
   const purchasesCourseAPI = () => {
     purchasesCourse({ item_id: course_id })
       .then((res) => {
-        setStatusComponent({
-          status: Status.SUCCESS_STATUS,
-          message: "Mua khoá học thành công!",
-        });
+        history.push(`/learn/${course_id}`);
       })
       .catch((err) =>
         setStatusComponent({
@@ -158,7 +176,6 @@ export default function CourseDetail(props) {
     getCourseReviewsAPI();
     getCourseContentAPI();
   }, [course_id]);
-  console.log(courseContent);
 
   return (
     <Fragment>
@@ -187,7 +204,11 @@ export default function CourseDetail(props) {
               className={classes.wishButton}
               onClick={clickAddWatchListHandler}
             >
-              <div> Watch list</div>
+              <div>
+                {addedWatchList.length !== 0
+                  ? "Added watch list"
+                  : "Watch list"}
+              </div>
               <img src={heartIcon} alt="heart icon" />
             </button>
           </div>
@@ -220,20 +241,16 @@ export default function CourseDetail(props) {
                     }}
                   >
                     <img src={userIcon} />
-                    <div>120 students</div>
+                    <div>{lecturer.students_count} students</div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <img src={playIcon} />
-                    <div>16 course</div>
+                    <div>{lecturer.courses_count} courses</div>
                   </div>
                 </div>
               </div>
               <div style={{ marginTop: "1rem" }}>
-                Avinash Jain is currently a sophomore at UC Berkeley majoring in
-                Electrical Engineering and Computer Science. He's the CEO and
-                Founder of TheCodex, an online educational platform focused on
-                bringing the best programming content to hundreds of thousands
-                of students around the world.
+                {`${courseDetail.lecturer_last_name} ${courseDetail.lecturer_first_name}`}
               </div>
             </div>
             <div style={{ marginTop: "1rem" }}>

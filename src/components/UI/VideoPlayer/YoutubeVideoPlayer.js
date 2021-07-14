@@ -21,7 +21,6 @@ export default function YouTubeVideoPlayer(props) {
   };
   const id = getIdVideoYoutube(props.url);
   const url = `https://www.youtube.com/embed/${id}`;
-  console.log(url);
   return (
     <YouTube
       videoId={id}

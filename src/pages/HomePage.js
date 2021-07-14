@@ -41,7 +41,6 @@ const HomePage = () => {
     }
   }, [listNewestCourses, listHighlightCourses, listMostViewCourses]);
 
-  console.log("Home page rendered");
   return (
     <Fragment>
       <MainPanel />
