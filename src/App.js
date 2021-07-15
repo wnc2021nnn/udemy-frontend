@@ -11,6 +11,7 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 import Snackbar from "../src/components/UI/Snackbar/Snackbar";
 import CourseStudyPage from "./pages/CourseStudyPage";
 import PostCoursePage from "./pages/PostCoursePage";
+import ProfilePage from "./pages/ProfilePage";
 function App() {
   return (
     <div className="App">
@@ -28,7 +29,7 @@ function App() {
           ></PrivateRoute>
           <PrivateRoute
             path="/profile"
-            component={MyLearningPage}
+            component={ProfilePage}
           ></PrivateRoute>
           <PrivateRoute path="/learn/:course_id" component={CourseStudyPage} />
           <PrivateRoute path="/course/post" component={PostCoursePage} />
