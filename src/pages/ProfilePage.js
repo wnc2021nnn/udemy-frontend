@@ -1,11 +1,23 @@
-import { Container } from "@material-ui/core";
+import { Grid, Container, Divider, Box } from "@material-ui/core";
 import { Fragment } from "react";
-import { Col, Row } from "reactstrap";
+import { ProfileLeftNavigation } from "../components/Profile/ProfileLeftNavigation";
 
 export default function ProfilePage(props) {
   return (
     <Fragment>
-        <Container className="themed-container" fluid="xl">Container???</Container>
+      <Container>
+        <Box border={1}  borderRadius={8} borderColor='grey.500'>
+          <Grid container maxWidth="lg">
+            <Grid item xs={3}>
+              <ProfileLeftNavigation />
+            </Grid>
+            <Grid item>
+              <Divider orientation="vertical" />
+            </Grid>
+            <Grid item xs={9}></Grid>
+          </Grid>
+        </Box>
+      </Container>
     </Fragment>
   );
 }
