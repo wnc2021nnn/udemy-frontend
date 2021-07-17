@@ -1,13 +1,12 @@
 import { Box, Grid, TextField, Button } from "@material-ui/core";
 import { RoundedTextField } from "../UI/TextField/RoundedTextField";
+import { HeaderContainer } from "./Profile Components/HeaderContainer";
 
 export function ProfileContainer(props) {
   return (
     <Box padding="16px" borderLeft={0.5} borderColor="grey.500">
       <Grid container direction="column">
-        <Box mb="32px">
-          <text style={{ fontSize: "24px" }}>My Profile</text>
-        </Box>
+        <HeaderContainer text="My Profile"/>
         <ProfileField label="Name" value={"Le Chi Nhin"} />
         <ProfileField label="Email" value={"nhinlechi@gmail.com"} />
         <Box my="32px">

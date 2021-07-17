@@ -1,20 +1,35 @@
 import { Button, Box, Avatar, Divider, Grid } from "@material-ui/core";
 
-export function ProfileLeftNavigation(props) {
+export function ProfileNavigation(props) {
+  const tabs = ["Profile", "Watch List", "My Courses"];
+
+  const navButtons = tabs.map((tab, index) => (
+    <NavButton
+      text={tab}
+      color={props.currentTabIndex === index ? "primary" : "default"}
+      onClick={()=> props.onClickTab(index)}
+    />
+  ));
+
   return (
     <Grid container direction="column" justifyContent="flex-start">
       <ProfileHeader />
       <Divider />
-      <NavButton text={"Profile"} />
-      <NavButton text={"Watch List"} />
-      <NavButton text={"My Courses"} />
+      {navButtons}
     </Grid>
   );
 }
 
 function NavButton(props) {
   return (
-    <Button href={props.href} fullWidth="true" style={{ height: "48px" }}>
+    <Button
+      href={props.href}
+      fullWidth="true"
+      style={{ height: "48px" }}
+      onClick={props.onClick}
+      variant="contained"
+      color={props.color}
+    >
       {props.text}
     </Button>
   );
