@@ -46,8 +46,19 @@ export default function CourseDetail(props) {
     message: "",
   });
   const addedWatchList = useSelector((state) =>
-    state.watchlist.listCourse.filter((item) => item.course_id == course_id)
+    state.watchlist.listCourse.find((item) => item.course_id == course_id)
   );
+
+  const topicTitle = useSelector((state) => {
+    const listCategory = state.categories.listCategory.entities;
+    for (let i = 0; i < listCategory.length; i++) {
+      const element = listCategory[i];
+      for (let j = 0; j < element.topics.length; j++) {
+        if (element.topics[j].topic_id === courseDetail.topic_id)
+          return element.topics[j].title;
+      }
+    }
+  });
 
   const dispatch = useDispatch();
   console.log("add watch list", addedWatchList);
@@ -182,6 +193,8 @@ export default function CourseDetail(props) {
       <div className={classes.wrapper}>
         <div className={classes.course}>
           <div className={classes.courseInfor}>
+            <h3>{topicTitle}</h3>
+
             <h2>{courseDetail.title}</h2>
             <h3>{courseDetail.description}</h3>
             <div className={classes.meta}>
@@ -204,11 +217,7 @@ export default function CourseDetail(props) {
               className={classes.wishButton}
               onClick={clickAddWatchListHandler}
             >
-              <div>
-                {addedWatchList.length !== 0
-                  ? "Added watch list"
-                  : "Watch list"}
-              </div>
+              <div>{addedWatchList ? "Added watch list" : "Watch list"}</div>
               <img src={heartIcon} alt="heart icon" />
             </button>
           </div>

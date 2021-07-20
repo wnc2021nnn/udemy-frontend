@@ -9,6 +9,7 @@ import {
   getCourseReviews,
   reviewCourse,
   sendLog,
+  updateStatus,
 } from "../../api/api-courses";
 import { useEffect, useState } from "react";
 import starIcon from "../../assets/icons/star.svg";
@@ -103,6 +104,10 @@ export default function CourseStudy() {
     });
   };
 
+  const sendStatus = (timeStatus) => {
+    updateStatus(lesson.lesson_id, { current_video_secconds: timeStatus });
+  };
+
   const reviewTest = {
     course_id: "course_000002",
     user_id: "132fdbd8-5b03-4748-98f7-d2f037783355",
@@ -126,6 +131,7 @@ export default function CourseStudy() {
     getCourseReviewsAPI();
     sendLog({ type: "USER_VIEW_COURSE", target_id: course_id });
   }, [course_id]);
+  console.log(lesson);
 
   return (
     <div className={classes.wrapper}>
@@ -135,11 +141,14 @@ export default function CourseStudy() {
       </div>
       <div className={classes.courseDetail}>
         <div className={classes.courseInfor}>
-          <YouTubeVideoPlayer
-            url={lesson.video_link}
-            width="1000px"
-            height="500px"
-          />
+          {lesson && (
+            <YouTubeVideoPlayer
+              lesson={lesson}
+              width="1000px"
+              height="500px"
+              sendStatus={sendStatus}
+            />
+          )}
           <div className={classes.tag}>
             <div
               onClick={() => clickTagHandler(true)}
@@ -161,7 +170,7 @@ export default function CourseStudy() {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "30%",
+                  width: "80%",
                 }}
               >
                 <div>
@@ -188,16 +197,17 @@ export default function CourseStudy() {
                 flexDirection: "column",
                 alignItems: "center",
                 marginTop: "1rem",
+                width: "90%",
               }}
             >
               <div
                 style={{
-                  width: "100%",
                   display: "flex",
+                  width: "100%",
                 }}
               >
                 <input
-                  style={{ padding: "1rem 1rem 1rem 1rem", width: "80%" }}
+                  style={{ padding: "1rem 1rem 1rem 1rem", width: "100%" }}
                   placeholder="Write review..."
                   onChange={(event) => {
                     reviewOnChangeHandler("reviews_text", event.target.value);
@@ -224,13 +234,13 @@ export default function CourseStudy() {
             </div>
           )}
         </div>
-        <div style={{ width: "600px", textAlign: "start" }}>
+        <div style={{ width: "800px", textAlign: "start" }}>
           <h2>Course content</h2>
           <CourseContent
             courseContent={courseContent}
             isPreview={false}
             onLessonClick={clickLessonHanlder}
-            lessonActiveId={lesson.lesson_id}
+            lessonActiveId={lesson && lesson.lesson_id}
           />
         </div>
       </div>

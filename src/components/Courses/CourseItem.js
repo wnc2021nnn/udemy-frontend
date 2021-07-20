@@ -18,9 +18,14 @@ const CourseItem = (props) => {
       }
     }
   });
-
+  const isMyCourse = useSelector((state) =>
+    state.courses.myCourses.entities.find(
+      (item) => item.course_id == courseItem.course_id
+    )
+  );
   const courseItemClickHandler = () => {
-    history.push(`/courses/${courseItem.course_id}`);
+    if (!isMyCourse) history.push(`/courses/${courseItem.course_id}`);
+    else history.push(`/learn/${courseItem.course_id}`);
   };
 
   return (

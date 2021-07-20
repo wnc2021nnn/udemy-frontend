@@ -80,3 +80,12 @@ export const getMyCourse = async () => {
   const res = await axiosIntance.get(APIPath.GET_MY_COURSES);
   return res;
 };
+
+export const updateStatus = async (lesson_id, body) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.post(
+    `/lessons/${lesson_id}/update-video-learning-state`,
+    body
+  );
+  return res;
+};

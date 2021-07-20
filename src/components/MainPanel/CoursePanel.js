@@ -2,15 +2,23 @@ import React from "react";
 import classes from "./CoursePanel.module.css";
 import startIcon from "../../assets/icons/star.svg";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
+
 const CoursePanel = (props) => {
   const history = useHistory();
   const courseItem = props.courseItem;
-  const onClickHandler = () => {
-    history.push(`/courses/${courseItem.course_id}`);
+  const isMyCourse = useSelector((state) =>
+    state.courses.myCourses.entities.find(
+      (item) => item.course_id == courseItem.course_id
+    )
+  );
+  const courseItemClickHandler = () => {
+    if (!isMyCourse) history.push(`/courses/${courseItem.course_id}`);
+    else history.push(`/learn/${courseItem.course_id}`);
   };
 
   return (
-    <div className={classes.wrapper} onClick={onClickHandler}>
+    <div className={classes.wrapper} onClick={courseItemClickHandler}>
       <div className={classes.infor}>
         <div>{courseItem.description}</div>
         <div

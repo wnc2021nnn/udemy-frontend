@@ -103,7 +103,7 @@ export const fetchMyCourses = createAsyncThunk(
   "courses/fetchMyCourses",
   async () => {
     const res = await getMyCourse();
-    return res;
+    return res.data.data;
   }
 );
 
@@ -171,17 +171,17 @@ const courseSlice = createSlice({
       })
       // Get my couses
       .addCase(fetchMyCourses.pending, (state, action) => {
-        state.listHighlightCourses.status.status = Status.LOADING_STATUS;
-        state.listHighlightCourses.status.message = "Fetching all courses!";
+        state.myCourses.status.status = Status.LOADING_STATUS;
+        state.myCourses.status.message = "Fetching all courses!";
       })
       .addCase(fetchMyCourses.fulfilled, (state, action) => {
-        state.listHighlightCourses.status.status = Status.SUCCESS_STATUS;
-        state.listHighlightCourses.message = "Get all course successfuly!";
-        state.listHighlightCourses.entities = action.payload;
+        state.myCourses.status.status = Status.SUCCESS_STATUS;
+        state.myCourses.message = "Get all course successfuly!";
+        state.myCourses.entities = action.payload;
       })
       .addCase(fetchMyCourses.rejected, (state, action) => {
-        state.listHighlightCourses.status.status = Status.FAILED_STATUS;
-        state.listHighlightCourses.status.message = action.error.message;
+        state.myCourses.status.status = Status.FAILED_STATUS;
+        state.myCourses.status.message = action.error.message;
       });
   },
 });

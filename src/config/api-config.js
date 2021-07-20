@@ -10,12 +10,10 @@ const AxiosIntance = () => {
     header = {
       "x-access-token": TOKEN,
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     };
   } else {
     header = {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
     };
   }
 

@@ -73,7 +73,7 @@ export default function CourseContent(props) {
                 {isPreview && index % 5 === 0 && (
                   <div style={{ borderRadius: "10px" }}>
                     <YouTubeVideoPlayer
-                      url={lesson.video_link}
+                      lesson={lesson}
                       width="560"
                       height="315"
                     />
