@@ -43,7 +43,7 @@ const HomePage = () => {
 
   return (
     <Fragment>
-      <MainPanel />
+      <MainPanel listHighlightCourses={listHighlightCourses} />
       <ListCourses
         title="Most View courses"
         listItemCourse={listMostViewCourses.entities}

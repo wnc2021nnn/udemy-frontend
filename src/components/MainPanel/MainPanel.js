@@ -8,20 +8,21 @@ import { useDispatch, useSelector } from "react-redux";
 import CoursePanel from "../MainPanel/CoursePanel";
 import { fetchHighlightCourses } from "../../store/slices/coursesSlice";
 
-const MainPanel = () => {
+const MainPanel = (props) => {
   const dispatch = useDispatch();
 
-  const listHighlightCourses = useSelector(
-    (state) => state.courses.listMostViewCourses.entities
-  );
+  const listHighlightCourses = props.listHighlightCourses.entities;
   const listHighlightCoursesJSX = listHighlightCourses.map((element) => {
-    return(
+    return (
       <div key={element.course_id} className="each-slide">
-        <div style={{ backgroundImage: `url("${element.avatar}")`}} className={classes.slide}>
+        <div
+          style={{ backgroundImage: `url("${element.avatar}")` }}
+          className={classes.slide}
+        >
           <CoursePanel courseItem={element} />
         </div>
       </div>
-    )
+    );
   });
 
   useEffect(() => {
@@ -29,11 +30,11 @@ const MainPanel = () => {
   }, []);
 
   return (
-    <Fragment>  
+    <Fragment>
       {/* <div className={classes.root}> */}
-        <Slide easing="ease"  className={classes.root}> 
-          {listHighlightCoursesJSX}
-        </Slide>
+      <Slide easing="ease" className={classes.root}>
+        {listHighlightCoursesJSX}
+      </Slide>
       {/* </div> */}
     </Fragment>
   );
