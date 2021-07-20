@@ -24,6 +24,8 @@ import { addWatchList } from "../../api/api-watchlist";
 import CourseContent from "./CourseContent";
 import { showTime } from "../../utils/timeUtil";
 import { getUserById } from "../../api/user-api";
+import { fetchWatchlist } from "../../store/slices/watchlistSlice";
+import { fetchMyCourses } from "../../store/slices/coursesSlice";
 
 const RELATED_COURSES_PARAM = {
   sort: "registed_des",
@@ -61,23 +63,9 @@ export default function CourseDetail(props) {
   });
 
   const dispatch = useDispatch();
-  console.log("add watch list", addedWatchList);
   useEffect(() => {
-    console.log("Set status", statusComponent);
     dispatch(setStatus(statusComponent));
   }, [statusComponent]);
-  console.log(statusComponent, addedWatchList);
-
-  const review = {
-    course_id: "course_000002",
-    user_id: "132fdbd8-5b03-4748-98f7-d2f037783355",
-    rating: 3,
-    reviews_text: "Khoa hoc rat huu ich 22",
-    created_at: "1625404002314",
-    course_review_id: "3665243d-96a6-4d4d-a561-0f17adcb705e",
-    first_name: "Ngyen",
-    last_name: "Le",
-  };
   const getLectuterAPI = (userId) => {
     getUserById(userId).then((res) => {
       setLecturer(res.data.data);
@@ -113,12 +101,13 @@ export default function CourseDetail(props) {
   const addWatchListAPI = () => {
     addWatchList(course_id)
       .then((res) => {
-        if (res.status === 200)
+        if (res.status === 200) {
+          dispatch(fetchWatchlist());
           setStatusComponent({
             message: "Thêm khoá học vào Watch List thành công",
             status: Status.SUCCESS_STATUS,
           });
-        else
+        } else
           setStatusComponent({
             message: "Khoá học đã có trong Watch List",
             status: Status.FAILED_STATUS,
@@ -134,6 +123,7 @@ export default function CourseDetail(props) {
   const purchasesCourseAPI = () => {
     purchasesCourse({ item_id: course_id })
       .then((res) => {
+        dispatch(fetchMyCourses());
         history.push(`/learn/${course_id}`);
       })
       .catch((err) =>

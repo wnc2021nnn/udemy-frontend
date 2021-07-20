@@ -35,3 +35,9 @@ export const getUserById = async (userId) => {
   const res = await axiosIntance.get(`${APIPath.USERS}/${userId}`);
   return res;
 };
+
+export const changePassword = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.patch(APIPath.USERS, data);
+  return res;
+};

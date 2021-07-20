@@ -12,3 +12,9 @@ export const getWatchList = async () => {
   const res = axiosIntance.get(APIPath.WATCH_LIST);
   return res;
 };
+
+export const deleteWatchList = async (body) => {
+  const axiosIntance = AxiosIntance();
+  const res = axiosIntance.delete(APIPath.WATCH_LIST, { data: body });
+  return res;
+};

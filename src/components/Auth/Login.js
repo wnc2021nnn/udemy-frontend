@@ -54,6 +54,8 @@ export default function Login(props) {
     if (userInform.status.status === Status.SUCCESS_STATUS) {
       localStorage.setItem(Util.ACCESS_TOKEN, userInform.user.access_token);
       localStorage.setItem(Util.REFRESH_TOKEN, userInform.user.refresh_token);
+      localStorage.setItem(Util.USER_ID, userInform.user.user_id);
+
       history.push(from.pathname);
     }
   }, [userInform.status.status]);
