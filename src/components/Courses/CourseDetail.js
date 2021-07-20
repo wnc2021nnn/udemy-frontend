@@ -46,7 +46,7 @@ export default function CourseDetail(props) {
     message: "",
   });
   const addedWatchList = useSelector((state) =>
-    state.watchlist.listCourse.find((item) => item.course_id == course_id)
+    state.watchlist.listCourse.find((item) => item.course_id === course_id)
   );
 
   const topicTitle = useSelector((state) => {

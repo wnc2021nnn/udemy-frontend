@@ -20,7 +20,7 @@ const CourseItem = (props) => {
   });
   const isMyCourse = useSelector((state) =>
     state.courses.myCourses.entities.find(
-      (item) => item.course_id == courseItem.course_id
+      (item) => item.course_id === courseItem.course_id
     )
   );
   const courseItemClickHandler = () => {

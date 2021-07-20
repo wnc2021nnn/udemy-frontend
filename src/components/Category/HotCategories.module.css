@@ -1,19 +1,20 @@
-.listwrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: flex-start;
+.listwrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
 }
 
-.listitem{
-    width: 100%;
-    text-align: start;
-    height: auto;
-    padding: 5px 1rem;
-    border-radius: 5px;
+.listitem {
+  width: 100%;
+  text-align: start;
+  height: auto;
+  padding: 1rem 1rem;
+  margin-top: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-
-.listitem:hover{
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+.listitem:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
