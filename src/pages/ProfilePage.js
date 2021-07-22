@@ -1,19 +1,17 @@
 import { Grid, Container, Box, Divider } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { getUserById } from "../api/user-api";
+import { useDispatch, useSelector } from "react-redux";
 import { MyCoursesContainer } from "../components/Profile/MyCoursesContainer";
 import { ProfileContainer } from "../components/Profile/ProfileContainer";
 import { ProfileNavigation } from "../components/Profile/ProfileNavigation";
 import { WatchListContainer } from "../components/Profile/WatchListContainer";
 import { Util } from "../constants/util-constants";
+import { fetchUserInfor } from "../store/slices/userSlice";
 
 export default function ProfilePage(props) {
   const [tabIndex, setTabIndex] = useState(0);
-  const [userInfor, setUserInfor] = useState({
-    first_name: "",
-    last_name: "",
-  });
-
+  const userInfor = useSelector((state) => state.user.userInform.user);
+  const dispatch = useDispatch();
   const tabViews = [
     <ProfileContainer userInfor={userInfor} />,
     <WatchListContainer />,
@@ -22,7 +20,7 @@ export default function ProfilePage(props) {
 
   const getUserByIdAPI = () => {
     const userId = localStorage.getItem(Util.USER_ID);
-    getUserById(userId).then((res) => setUserInfor(res.data.data));
+    dispatch(fetchUserInfor(userId));
   };
 
   useEffect(() => {

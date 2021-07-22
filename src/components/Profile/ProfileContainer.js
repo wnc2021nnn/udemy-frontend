@@ -5,6 +5,7 @@ import { getUserById, changePassword } from "../../api/user-api";
 import Status from "../../constants/status-constants";
 import { Util } from "../../constants/util-constants";
 import { setStatus } from "../../store/slices/statusSlice";
+import { fetchUserInfor } from "../../store/slices/userSlice";
 import { RoundedTextField } from "../UI/TextField/RoundedTextField";
 import { HeaderContainer } from "./Profile Components/HeaderContainer";
 
@@ -28,14 +29,14 @@ export function ProfileContainer(props) {
   const changePasswordAPI = () => {
     changePassword(changePasswordInfor)
       .then((res) => {
-        if (res.status === 201)
+        if (res.status === 201) {
           dispatch(
             setStatus({
               message: "Update password successfully!",
               status: Status.SUCCESS_STATUS,
             })
           );
-        else
+        } else
           dispatch(
             setStatus({
               message: "Update password failed!",
@@ -56,14 +57,15 @@ export function ProfileContainer(props) {
   const changeName = () => {
     changePassword(changeNameInfor)
       .then((res) => {
-        if (res.status === 201)
+        if (res.status === 201) {
           dispatch(
             setStatus({
               message: "Update name successfully!",
               status: Status.SUCCESS_STATUS,
             })
           );
-        else
+          dispatch(fetchUserInfor(userInfor.user_id));
+        } else
           dispatch(
             setStatus({
               message: "Update name failed!",
