@@ -7,13 +7,13 @@ export function ProfileNavigation(props) {
     <NavButton
       text={tab}
       color={props.currentTabIndex === index ? "primary" : "default"}
-      onClick={()=> props.onClickTab(index)}
+      onClick={() => props.onClickTab(index)}
     />
   ));
 
   return (
     <Grid container direction="column" justifyContent="flex-start">
-      <ProfileHeader />
+      <ProfileHeader userInfor={props.userInfor} />
       <Divider />
       {navButtons}
     </Grid>
@@ -36,6 +36,7 @@ function NavButton(props) {
 }
 
 function ProfileHeader(props) {
+  const userInfor = props.userInfor;
   return (
     <Grid Container direction="column">
       <Box display="flex" justifyContent="center" width="100%" marginTop="16px">
@@ -43,7 +44,7 @@ function ProfileHeader(props) {
       </Box>
       <Box margin="16px">
         <text style={{ fontWeight: "bold", fontSize: "20px" }}>
-          Le Chi Nhin
+          {`${userInfor.last_name} ${userInfor.first_name}`}{" "}
         </text>
       </Box>
     </Grid>

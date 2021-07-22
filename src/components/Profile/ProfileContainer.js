@@ -9,14 +9,21 @@ import { RoundedTextField } from "../UI/TextField/RoundedTextField";
 import { HeaderContainer } from "./Profile Components/HeaderContainer";
 
 export function ProfileContainer(props) {
-  const [userInfor, setUserInfor] = useState({});
   const dispatch = useDispatch();
+  const userInfor = props.userInfor;
+
   const [changePasswordInfor, setChangePassword] = useState({});
-  const confirmPasswordRef = useRef(null);
-  const getUserByIdAPI = () => {
-    const userId = localStorage.getItem(Util.USER_ID);
-    getUserById(userId).then((res) => setUserInfor(res.data.data));
-  };
+  const [changeNameInfor, setChangeName] = useState({
+    first_name: userInfor.first_name,
+    last_name: userInfor.last_name,
+  });
+
+  useEffect(() => {
+    setChangeName({
+      first_name: userInfor.first_name,
+      last_name: userInfor.last_name,
+    });
+  }, [userInfor]);
 
   const changePasswordAPI = () => {
     changePassword(changePasswordInfor)
@@ -46,9 +53,33 @@ export function ProfileContainer(props) {
       );
   };
 
-  useEffect(() => {
-    getUserByIdAPI();
-  }, []);
+  const changeName = () => {
+    changePassword(changeNameInfor)
+      .then((res) => {
+        if (res.status === 201)
+          dispatch(
+            setStatus({
+              message: "Update name successfully!",
+              status: Status.SUCCESS_STATUS,
+            })
+          );
+        else
+          dispatch(
+            setStatus({
+              message: "Update name failed!",
+              status: Status.FAILED_STATUS,
+            })
+          );
+      })
+      .catch((err) =>
+        dispatch(
+          setStatus({
+            message: err.response,
+            status: Status.FAILED_STATUS,
+          })
+        )
+      );
+  };
 
   const handleChangeInputPassword = (event) => {
     const target = event.target;
@@ -62,17 +93,38 @@ export function ProfileContainer(props) {
     });
   };
 
-  const handleSaveChangePassword = () => {
-    console.log(confirmPasswordRef);
+  const handleChangeInputName = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    setChangeName((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
   };
+
   return (
     <Box padding="16px" borderLeft={0.5} borderColor="grey.500">
       <Grid container direction="column">
         <HeaderContainer text="My Profile" />
-        <ProfileField label="Name" value={"Le Chi Nhin"} />
-        <ProfileField label="Email" value={"nhinlechi@gmail.com"} />
+        <ProfileField
+          name="first_name"
+          onChange={handleChangeInputName}
+          label="First Name"
+          value={changeNameInfor.first_name}
+        />
+
+        <ProfileField
+          name="last_name"
+          onChange={handleChangeInputName}
+          label="Last Name"
+          value={changeNameInfor.last_name}
+        />
+        <ProfileField label="Email" value={userInfor.email} />
         <Box my="32px">
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={changeName}>
             Save
           </Button>
         </Box>
@@ -114,6 +166,11 @@ export function ProfileContainer(props) {
 }
 
 function ProfileField(props) {
+  const handlerChange = (event) => {
+    if (props.onChange) {
+      props.onChange(event);
+    }
+  };
   return (
     <Grid container direction="column">
       <Box
@@ -125,7 +182,13 @@ function ProfileField(props) {
       >
         <text style={{ fontWeight: "bold" }}>{props.label}</text>
       </Box>
-      <TextField id="outlined-basic" value={props.value} variant="outlined" />
+      <TextField
+        onChange={handlerChange}
+        name={props.name}
+        id="outlined-basic"
+        value={props.value}
+        variant="outlined"
+      />
     </Grid>
   );
 }
