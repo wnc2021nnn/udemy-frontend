@@ -5,25 +5,29 @@ import classes from "./YoutubeVideoPlayer.module.css";
 //import ReactPlayer from "react-player";
 import ReactPlayer from "react-player/youtube";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TIME_INTERVAL = 10000;
 export default function YouTubeVideoPlayer(props) {
   const refVideo = useRef(null);
   const lesson = props.lesson;
+  const [url, setUrl] = useState();
   let timer;
   const sendStatusTimer = () => {
-    if (props.sendStatus) {
-      clearInterval(timer);
-      timer = setInterval(() => {
+    if (props.getTimeLesson) {
+      props.getTimeLesson(refVideo.current.getDuration());
+    }
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (props.sendStatus && refVideo.current) {
         const time = refVideo.current.getCurrentTime();
         props.sendStatus(parseInt(time, 10));
-      }, TIME_INTERVAL);
-    }
+      }
+    }, TIME_INTERVAL);
   };
 
   const stopSendStatus = () => {
-    if (props.sendStatus) {
+    if (props.sendStatus && refVideo.current) {
       clearInterval(timer);
       const time = refVideo.current.getCurrentTime();
       props.sendStatus(parseInt(time, 10));
@@ -36,13 +40,17 @@ export default function YouTubeVideoPlayer(props) {
     };
   }, []);
 
-  const id = getIdVideoYoutube(lesson.video_link);
-  const url = `https://www.youtube.com/embed/${id}`;
+  useEffect(() => {
+    const id = getIdVideoYoutube(lesson.video_link);
+    console.log("Id", lesson);
+    setUrl(`https://www.youtube.com/embed/${id}`);
+  }, [lesson]);
+
   return (
     <ReactPlayer
       ref={refVideo}
       controls
-      url={url}
+      url={lesson.video_link}
       className={classes.wrappter}
       onPlay={sendStatusTimer}
       onPause={stopSendStatus}
