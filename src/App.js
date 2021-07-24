@@ -8,11 +8,11 @@ import PrivateRoute from "./components/Route/PrivateRoute";
 import MyLearningPage from "./pages/MyLearningPage";
 import CategoryPage from "./pages/CategoryPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
-import Snackbar from "./components/UI/Snackbar/Snackbar";
+import Snackbar from "../src/components/UI/Snackbar/Snackbar";
 import CourseStudyPage from "./pages/CourseStudyPage";
 import PostCoursePage from "./pages/PostCoursePage";
 import ProfilePage from "./pages/ProfilePage";
-function ClientApp() {
+function App() {
   return (
     <div className="App">
       <Layout>
@@ -49,4 +49,4 @@ function ClientApp() {
   );
 }
 
-export default ClientApp;
+export default App;
