@@ -36,7 +36,11 @@ export const fetchUserInfor = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    logOut(state, action) {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(userLogin.pending, (state, action) => {
@@ -63,5 +67,7 @@ const userSlice = createSlice({
       });
   },
 });
+
+export const { logOut } = userSlice.actions;
 
 export default userSlice.reducer;

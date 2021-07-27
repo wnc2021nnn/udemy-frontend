@@ -5,8 +5,8 @@ import { MyCoursesContainer } from "../components/Profile/MyCoursesContainer";
 import { ProfileContainer } from "../components/Profile/ProfileContainer";
 import { ProfileNavigation } from "../components/Profile/ProfileNavigation";
 import { WatchListContainer } from "../components/Profile/WatchListContainer";
-import { Util } from "../constants/util-constants";
 import { fetchUserInfor } from "../store/slices/userSlice";
+import { getUserId } from "../utils/auth/verify";
 
 export default function ProfilePage(props) {
   const [tabIndex, setTabIndex] = useState(0);
@@ -19,8 +19,8 @@ export default function ProfilePage(props) {
   ];
 
   const getUserByIdAPI = () => {
-    const userId = localStorage.getItem(Util.USER_ID);
-    dispatch(fetchUserInfor(userId));
+    const userId = getUserId();
+    if (userId) dispatch(fetchUserInfor(userId));
   };
 
   useEffect(() => {

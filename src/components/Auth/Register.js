@@ -18,15 +18,13 @@ export default function Register(props) {
     role: 2,
   });
 
-  const [isLoading, setIsLoading] =  useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
-
   const registerHandler = (e) => {
     e.preventDefault();
-    if(isLoading)
-      return;
+    if (isLoading) return;
     if (!verifyEmail(registerInform.email)) {
       setError({
         message: "Invalid email",
@@ -39,25 +37,27 @@ export default function Register(props) {
       });
       return;
     }
-    if(registerInform.first_name.trim().length===0 || registerInform.last_name.trim().length===0)
-    {
-        setError({
-            message: "Vui lòng điền đẩy đủ thông tin",
-          });
-          return;
+    if (
+      registerInform.first_name.trim().length === 0 ||
+      registerInform.last_name.trim().length === 0
+    ) {
+      setError({
+        message: "Vui lòng điền đẩy đủ thông tin",
+      });
+      return;
     }
     setIsLoading(true);
-    register(registerInform).then((res)=>{
-      history.push('/login');
-      setIsLoading(false);
-    })
-    .catch((error)=>{
-      setIsLoading(false);
-      setError({
-        message:"Email đã được đăng ký! Vui lòng chọn email khác."
+    register(registerInform)
+      .then((res) => {
+        history.push("/login");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setError({
+          message: "Email đã được đăng ký! Vui lòng chọn email khác.",
+        });
       });
-    })
-
   };
 
   const handleEventChange = (event) => {
@@ -93,9 +93,13 @@ export default function Register(props) {
           name="last_name"
           placeholder="Last Name"
         />
-          <div className={classes.errorText}>{error.message}</div>
-        
-        <button onClick={registerHandler}><Loader isLoading={isLoading} size={20}>Register</Loader></button>
+        <div className={classes.errorText}>{error.message}</div>
+
+        <button onClick={registerHandler}>
+          <Loader isLoading={isLoading} size={20}>
+            Register
+          </Loader>
+        </button>
       </form>
     </div>
   );

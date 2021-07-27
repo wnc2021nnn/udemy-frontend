@@ -58,6 +58,8 @@ export default function Login(props) {
 
       history.push(from.pathname);
     }
+    if (userInform.status.status === Status.FAILED_STATUS)
+      setError("Invalid email, password");
   }, [userInform.status.status]);
 
   return (
