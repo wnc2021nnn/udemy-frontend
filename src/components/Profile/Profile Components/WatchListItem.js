@@ -30,10 +30,7 @@ export function WatchListItem(props) {
   };
 
   return (
-    <Card
-      style={{ padding: "16px", marginTop: "8px", marginBottom: "8px" }}
-      onClick={onClickCourseHandler}
-    >
+    <Card style={{ padding: "16px", marginTop: "8px", marginBottom: "8px" }}>
       <Grid container>
         <Grid item xs={2}>
           <Box height="60px" width="80px">
@@ -47,7 +44,12 @@ export function WatchListItem(props) {
             />
           </Box>
         </Grid>
-        <Grid item xs={8} justifyContent="flex-start">
+        <Grid
+          item
+          xs={8}
+          justifyContent="flex-start"
+          onClick={onClickCourseHandler}
+        >
           <Box justifyContent="flex-start" display="flex" my={1}>
             <text>{watchListItem.title}</text>
           </Box>

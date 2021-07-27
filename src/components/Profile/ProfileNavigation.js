@@ -1,7 +1,16 @@
 import { Button, Box, Avatar, Divider, Grid } from "@material-ui/core";
-
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { logOut } from "../../store/slices/userSlice";
 export function ProfileNavigation(props) {
   const tabs = ["Profile", "Watch List", "My Courses"];
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const logOutClickHandler = () => {
+    localStorage.clear();
+    dispatch(logOut());
+    history.push("/");
+  };
 
   const navButtons = tabs.map((tab, index) => (
     <NavButton
@@ -16,6 +25,11 @@ export function ProfileNavigation(props) {
       <ProfileHeader userInfor={props.userInfor} />
       <Divider />
       {navButtons}
+      <NavButton
+        text={"LOG OUT"}
+        color={"default"}
+        onClick={logOutClickHandler}
+      />
     </Grid>
   );
 }
