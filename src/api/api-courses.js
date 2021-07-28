@@ -89,3 +89,9 @@ export const updateStatus = async (lesson_id, body) => {
   );
   return res;
 };
+
+export const createCourse = async (courseInfor) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(`${APIPath.GET_ALL_COURSES}`, courseInfor);
+  return res;
+};

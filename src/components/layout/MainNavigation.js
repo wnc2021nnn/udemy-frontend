@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import classes from "./MainNavigation.module.css";
 import favoriteIcon from "../../assets/icons/favorite.svg";
 import notificationIcon from "../../assets/icons/notification.svg";
@@ -12,19 +12,28 @@ import Status from "../../constants/status-constants";
 
 const MainNavigation = () => {
   const loginInform = useSelector((state) => state.user.userInform);
+  const history = useHistory();
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     setIsLogin(
       loginInform.status.status === Status.SUCCESS_STATUS || getToken()
     );
   }, [loginInform]);
+
+  const clickTopicHandler = (topic_id) => {
+    history.push(`/category/${topic_id}`);
+  };
+
   return (
     <React.Fragment>
       <nav className={classes.nav}>
         <NavLink to="/" activeClassName={classes.active}>
           <img src={logoIcon} />
         </NavLink>
-        <CategoryDropdown />
+        <CategoryDropdown
+          clickTopicHandler={clickTopicHandler}
+          title={"Category"}
+        />
         <form className={classes.search_bar}>
           <input placeholder="Search..."></input>
         </form>

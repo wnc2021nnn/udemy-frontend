@@ -5,16 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoriesList } from "../../store/slices/categoriesSlice";
 import classes from "./CategoryDropDown.module.css";
 import { fetchCourses } from "../../store/slices/coursesSlice";
-import { useHistory } from "react-router";
 
-const CategoryDropdown = () => {
+const CategoryDropdown = (props) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const listCategory = useSelector(
     (state) => state.categories.listCategory.entities
   );
   const clickTopicHandler = (topic_id) => {
-    history.push(`/category/${topic_id}`);
+    props.clickTopicHandler(topic_id);
   };
   const listCategoryJSX = listCategory.map((category) => {
     const listTopic = category.topics.map((topic) => {
@@ -41,7 +39,12 @@ const CategoryDropdown = () => {
   }, []);
 
   return (
-    <Dropdown title="Category" buttonClassName={classes.buttonDropdowmn}>
+    <Dropdown
+      title={props.title}
+      buttonClassName={classes.buttonDropdowmn}
+      position="right"
+      menuClassName={classes.submenu}
+    >
       {listCategoryJSX}
     </Dropdown>
   );
