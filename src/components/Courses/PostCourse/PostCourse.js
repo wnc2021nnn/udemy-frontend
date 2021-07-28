@@ -4,11 +4,14 @@ import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { useParams } from "react-router";
 export default function PostCourse(props) {
+  const params = useParams();
   const [fullDescription, setFullDescription] = useState("");
   const onChangeHandler = (value) => {
     setFullDescription(value);
   };
+  console.log(params);
   return (
     <div className={classes.wrapper}>
       <h3>Course name</h3>

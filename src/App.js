@@ -74,12 +74,15 @@ function App() {
         <Layout>
           <TeacherNavigation />
           <Switch>
-            <Route path="/" exact>
-              <PostCoursePage />
-            </Route>
             <PrivateRoute path="/profile">
               <ProfilePage />
             </PrivateRoute>
+            <Route path="/" exact>
+              <PostCoursePage />
+            </Route>
+            <Route path="/:course_id" exact>
+              <PostCoursePage />
+            </Route>
             <Route path="*" exact>
               <NotFoundPage />
             </Route>

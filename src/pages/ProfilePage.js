@@ -15,7 +15,7 @@ export default function ProfilePage(props) {
   const [tabViews, setTabViews] = useState([
     <ProfileContainer userInfor={userInfor} />,
     <WatchListContainer />,
-    <MyCoursesContainer />,
+    <MyCoursesContainer userInfor={userInfor} />,
   ]);
 
   const getUserByIdAPI = () => {
@@ -31,7 +31,7 @@ export default function ProfilePage(props) {
     if (userInfor.role != 2) {
       setTabViews([
         <ProfileContainer userInfor={userInfor} />,
-        <MyCoursesContainer />,
+        <MyCoursesContainer userInfor={userInfor} />,
       ]);
     }
   }, [userInfor.role]);

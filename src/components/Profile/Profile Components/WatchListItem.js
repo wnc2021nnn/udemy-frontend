@@ -23,12 +23,6 @@ export function WatchListItem(props) {
       });
   };
 
-  const onClickCourseHandler = () => {
-    if (isWatchList) {
-      history.push(`/courses/${watchListItem.course_id}`);
-    } else history.push(`/learn/${watchListItem.course_id}`);
-  };
-
   return (
     <Card style={{ padding: "16px", marginTop: "8px", marginBottom: "8px" }}>
       <Grid container>
@@ -48,7 +42,7 @@ export function WatchListItem(props) {
           item
           xs={8}
           justifyContent="flex-start"
-          onClick={onClickCourseHandler}
+          onClick={props.onClickCourseHandler}
         >
           <Box justifyContent="flex-start" display="flex" my={1}>
             <text>{watchListItem.title}</text>
