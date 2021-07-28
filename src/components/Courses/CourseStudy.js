@@ -88,7 +88,7 @@ export default function CourseStudy() {
   };
 
   const clickLessonHanlder = (lesson) => {
-    setLesson(lesson);
+    setLesson({ ...lesson });
   };
 
   const clickTagHandler = (status) => {
@@ -108,19 +108,19 @@ export default function CourseStudy() {
     updateStatus(lesson.lesson_id, { current_video_secconds: timeStatus });
   };
 
-  const reviewTest = {
-    course_id: "course_000002",
-    user_id: "132fdbd8-5b03-4748-98f7-d2f037783355",
-    rating: 3,
-    reviews_text: "Khoa hoc rat huu ich 22",
-    created_at: "1625404002314",
-    course_review_id: "3665243d-96a6-4d4d-a561-0f17adcb705e",
-    first_name: "Ngyen",
-    last_name: "Le",
-  };
-
   const clickBackHandler = () => {
     history.push("/");
+  };
+
+  const getTimeLesson = (time) => {
+    console.log(time);
+    if (time)
+      setLesson((prevState) => {
+        return {
+          ...prevState,
+          total_time: time,
+        };
+      });
   };
 
   const reviewsJSX = reviews.map((item) => <Review review={item} />);
@@ -131,7 +131,6 @@ export default function CourseStudy() {
     getCourseReviewsAPI();
     sendLog({ type: "USER_VIEW_COURSE", target_id: course_id });
   }, [course_id]);
-  console.log(lesson);
 
   return (
     <div className={classes.wrapper}>
@@ -147,6 +146,7 @@ export default function CourseStudy() {
               width="1000px"
               height="500px"
               sendStatus={sendStatus}
+              getTimeLesson={getTimeLesson}
             />
           )}
           <div className={classes.tag}>
