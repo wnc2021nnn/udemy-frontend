@@ -124,45 +124,49 @@ export function ProfileContainer(props) {
           label="Last Name"
           value={changeNameInfor.last_name}
         />
-        <ProfileField label="Email" value={userInfor.email} />
+        {userInfor.role == 2 && (
+          <ProfileField label="Email" value={userInfor.email} />
+        )}
         <Box my="32px">
           <Button variant="contained" color="primary" onClick={changeName}>
             Save
           </Button>
         </Box>
       </Grid>
-      <Grid container direction="column" spacing={1}>
-        <Box
-          ml="4px"
-          mt="32px"
-          mb="16px"
-          justifyContent="flex-start"
-          display="flex"
-        >
-          <text style={{ fontWeight: "bold" }}>Password</text>
-        </Box>
-        <RoundedTextField
-          name="old_password"
-          placeHolder="current password"
-          onChange={handleChangeInputPassword}
-          type="password"
-        />
-        <RoundedTextField
-          name="password"
-          placeHolder="new password"
-          onChange={handleChangeInputPassword}
-          type="password"
-        />
-        <Box my="32px">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={changePasswordAPI}
+      {userInfor.role == 2 && (
+        <Grid container direction="column" spacing={1}>
+          <Box
+            ml="4px"
+            mt="32px"
+            mb="16px"
+            justifyContent="flex-start"
+            display="flex"
           >
-            Change Password
-          </Button>
-        </Box>
-      </Grid>
+            <text style={{ fontWeight: "bold" }}>Password</text>
+          </Box>
+          <RoundedTextField
+            name="old_password"
+            placeHolder="current password"
+            onChange={handleChangeInputPassword}
+            type="password"
+          />
+          <RoundedTextField
+            name="password"
+            placeHolder="new password"
+            onChange={handleChangeInputPassword}
+            type="password"
+          />
+          <Box my="32px">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={changePasswordAPI}
+            >
+              Change Password
+            </Button>
+          </Box>
+        </Grid>
+      )}
     </Box>
   );
 }

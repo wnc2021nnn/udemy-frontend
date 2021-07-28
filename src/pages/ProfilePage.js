@@ -12,11 +12,11 @@ export default function ProfilePage(props) {
   const [tabIndex, setTabIndex] = useState(0);
   const userInfor = useSelector((state) => state.user.userInform.user);
   const dispatch = useDispatch();
-  const tabViews = [
+  const [tabViews, setTabViews] = useState([
     <ProfileContainer userInfor={userInfor} />,
     <WatchListContainer />,
     <MyCoursesContainer />,
-  ];
+  ]);
 
   const getUserByIdAPI = () => {
     const userId = getUserId();
@@ -26,6 +26,15 @@ export default function ProfilePage(props) {
   useEffect(() => {
     getUserByIdAPI();
   }, []);
+
+  useEffect(() => {
+    if (userInfor.role != 2) {
+      setTabViews([
+        <ProfileContainer userInfor={userInfor} />,
+        <MyCoursesContainer />,
+      ]);
+    }
+  }, [userInfor.role]);
   return (
     <Container>
       <Box border={1} borderRadius={8} borderColor="grey.500">

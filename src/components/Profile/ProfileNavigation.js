@@ -1,9 +1,11 @@
 import { Button, Box, Avatar, Divider, Grid } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { logOut } from "../../store/slices/userSlice";
 export function ProfileNavigation(props) {
-  const tabs = ["Profile", "Watch List", "My Courses"];
+  const userInfor = useSelector((state) => state.user.userInform.user);
+  const [tabs, setTabs] = useState(["Profile", "Watch List", "My Courses"]);
   const history = useHistory();
   const dispatch = useDispatch();
   const logOutClickHandler = () => {
@@ -19,6 +21,12 @@ export function ProfileNavigation(props) {
       onClick={() => props.onClickTab(index)}
     />
   ));
+
+  useEffect(() => {
+    if (userInfor.role != 2) {
+      setTabs(["Profile", "My Courses"]);
+    }
+  }, [userInfor.role]);
 
   return (
     <Grid container direction="column" justifyContent="flex-start">
