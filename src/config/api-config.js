@@ -70,6 +70,7 @@ const AxiosIntance = () => {
             .then((res) => {
               console.log(res.data);
               // this.setSession({ token: res.token, refresh_token: res.refresh });
+              if (!res.data) return;
               localStorage.setItem(Util.ACCESS_TOKEN, res.data);
               originalReq.headers["x-access-token"] = res.data;
 
