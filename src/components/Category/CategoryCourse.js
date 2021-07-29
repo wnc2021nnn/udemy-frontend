@@ -6,8 +6,9 @@ import CourseItem from "../Courses/CourseItem";
 import ReactPaginate from "react-paginate";
 import { getAllCourses } from "../../api/api-courses";
 
+const LIMIT_COURSES = 4;
+
 export default function CategoryCourse() {
-  const dispatch = useDispatch();
   const [listCourseCategory, setListCourseCategory] = useState({
     listCourses: [],
     total_courses: 0,
@@ -27,22 +28,24 @@ export default function CategoryCourse() {
       }
     }
   });
-
-  useEffect(() => {
-    getAllCourses({ topic: topic_id, limit: 4, page: 1 }).then((res) => {
+  const getAllCoursesHandler = (params) => {
+    getAllCourses(params).then((res) => {
       setListCourseCategory({
         listCourses: res.data.data,
         total_courses: res.data.pagination.total_courses,
       });
     });
+  };
+
+  useEffect(() => {
+    getAllCoursesHandler({ topic: topic_id, limit: LIMIT_COURSES, page: 1 });
   }, [topic_id]);
 
   const changePaginationHandler = (event, value) => {
-    getAllCourses({ topic: topic_id, limit: 4, page: value }).then((res) => {
-      setListCourseCategory({
-        listCourses: res.data.data,
-        total_courses: res.data.pagination.total_courses,
-      });
+    getAllCoursesHandler({
+      topic: topic_id,
+      limit: LIMIT_COURSES,
+      page: value,
     });
   };
 
@@ -52,7 +55,12 @@ export default function CategoryCourse() {
       {listCourseJSX}
       <Pagination
         count={Math.ceil(listCourseCategory.total_courses / 4)}
-        style={{ position: "fixed", bottom: "0", height: "4rem" }}
+        style={{
+          position: "fixed",
+          bottom: "4rem",
+          height: "4rem",
+          marginTop: "2rem",
+        }}
         onChange={changePaginationHandler}
       />
     </div>
