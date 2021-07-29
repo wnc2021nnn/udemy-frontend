@@ -95,3 +95,12 @@ export const createCourse = async (courseInfor) => {
   const res = await axiosIntance.put(`${APIPath.GET_ALL_COURSES}`, courseInfor);
   return res;
 };
+
+export const updateCourse = async (course_id, courseInfor) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.patch(
+    `${APIPath.GET_ALL_COURSES}/${course_id}`,
+    courseInfor
+  );
+  return res;
+};

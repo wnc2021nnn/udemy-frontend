@@ -37,7 +37,7 @@ const CourseItem = (props) => {
           className={classes.thumbnail}
         />
         <div className={classes.infor}>
-          <div>{courseItem.description}</div>
+          <div>{courseItem.title}</div>
           <div
             className={classes.author}
           >{`${courseItem.lecturer_last_name} ${courseItem.lecturer_first_name}`}</div>

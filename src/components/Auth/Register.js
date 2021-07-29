@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../api/user-api";
 import { useHistory } from "react-router";
 import Loader from "../UI/Loader";
+import ModalMaterial from "../UI/ModalMaterial/ModalMaterial";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 export default function Register(props) {
   const [error, setError] = useState({
@@ -17,6 +20,7 @@ export default function Register(props) {
     last_name: "",
     role: 2,
   });
+  const [isOpen, setIsOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,8 +53,8 @@ export default function Register(props) {
     setIsLoading(true);
     register(registerInform)
       .then((res) => {
-        history.push("/login");
         setIsLoading(false);
+        setIsOpen(true);
       })
       .catch((error) => {
         setIsLoading(false);
@@ -70,6 +74,12 @@ export default function Register(props) {
     setRegisterInform((prevState) => {
       return { ...prevState, [name]: value };
     });
+  };
+  const handleChangeOTP = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    console.log(value);
   };
 
   return (
@@ -101,6 +111,22 @@ export default function Register(props) {
           </Loader>
         </button>
       </form>
+      <ModalMaterial isOpen={isOpen} handleOpen={setIsOpen}>
+        <h2 id="simple-modal-title">Verify Email</h2>
+        <TextField id="standard-basic" label="OTP" onChange={handleChangeOTP} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: "2rem",
+          }}
+        >
+          <Button variant="contained" color="primary">
+            Verify
+          </Button>
+          <Button variant="contained">Resend</Button>
+        </div>
+      </ModalMaterial>
     </div>
   );
 }

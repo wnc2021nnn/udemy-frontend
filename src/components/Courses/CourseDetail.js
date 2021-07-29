@@ -6,6 +6,7 @@ import {
   getCourseReviews,
   purchasesCourse,
   getCourseContent,
+  sendLog,
 } from "../../api/api-courses";
 import CourseItem from "../../components/Courses/CourseItem";
 import classes from "./CourseDetail.module.css";
@@ -176,6 +177,7 @@ export default function CourseDetail(props) {
     getDetailCourseAPI();
     getCourseReviewsAPI();
     getCourseContentAPI();
+    sendLog({ type: "USER_VIEW_COURSE", target_id: course_id });
   }, [course_id]);
 
   return (
@@ -186,7 +188,7 @@ export default function CourseDetail(props) {
             <h3>{topicTitle}</h3>
 
             <h2>{courseDetail.title}</h2>
-            <h3>{courseDetail.description}</h3>
+            <h3>{courseDetail.short_description}</h3>
             <div className={classes.meta}>
               <div className={classes.rating}>
                 <div>{courseDetail.rating}</div>
@@ -225,7 +227,11 @@ export default function CourseDetail(props) {
           <div className={classes.information}>
             <div>
               <h3>Full description</h3>
-              <p>{courseDetail.description}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: courseDetail.description,
+                }}
+              />
             </div>
             <div>
               <h3>Lectuter</h3>

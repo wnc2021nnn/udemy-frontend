@@ -5,22 +5,29 @@ import { useEffect, useState } from "react";
 import { Button, Switch } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { useParams } from "react-router";
-import { createCourse, getCourseById } from "../../../api/api-courses";
+import {
+  createCourse,
+  getCourseById,
+  updateCourse,
+} from "../../../api/api-courses";
 import CategoryDropdown from "../../Category/CategoryDropDown";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setStatus } from "../../../store/slices/statusSlice";
+import Status from "../../../constants/status-constants";
 export default function PostCourse(props) {
   const params = useParams();
-  const [courseInfor, setCourseInfor] = useState({
+  const dispatch = useDispatch();
+  const course_id = params.course_id;
+  const initialState = {
     avatar: "",
     description: "",
     short_description: "",
     title: "",
     topic_id: "",
     price: 0,
-    status: "",
-    view_count: 0,
-    registed_count: 0,
-  });
+    status: "INCOMPLETE",
+  };
+  const [courseInfor, setCourseInfor] = useState(initialState);
   const topicTitle = useSelector((state) => {
     const listCategory = state.categories.listCategory.entities;
     for (let i = 0; i < listCategory.length; i++) {
@@ -76,14 +83,43 @@ export default function PostCourse(props) {
     });
   };
   useEffect(() => {
-    const course_id = params.course_id;
     if (course_id) {
-      getCourseById(course_id).then((res) => setCourseInfor(res.data.data));
-    }
+      getCourseById(course_id).then((res) => {
+        const courseRes = res.data.data;
+        if (courseRes)
+          setCourseInfor({
+            avatar: courseRes.avatar,
+            description: courseRes.description,
+            short_description: courseRes.short_description,
+            title: courseRes.title,
+            topic_id: courseRes.topic_id,
+            price: courseRes.price,
+            status: courseRes.status,
+          });
+      });
+    } else setCourseInfor(initialState);
   }, [params.course_id]);
 
   const onSaveClickHandler = () => {
-    createCourse(courseInfor);
+    if (!course_id)
+      createCourse(courseInfor).then((res) => {
+        dispatch(
+          setStatus({
+            message: "Create new course successfully!",
+            status: Status.SUCCESS_STATUS,
+          })
+        );
+      });
+    else {
+      updateCourse(course_id, courseInfor).then((res) =>
+        dispatch(
+          setStatus({
+            message: "Update course successfully!",
+            status: Status.SUCCESS_STATUS,
+          })
+        )
+      );
+    }
   };
   return (
     <div className={classes.wrapper}>

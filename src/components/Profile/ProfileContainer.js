@@ -124,9 +124,8 @@ export function ProfileContainer(props) {
           label="Last Name"
           value={changeNameInfor.last_name}
         />
-        {userInfor.role == 2 && (
-          <ProfileField label="Email" value={userInfor.email} />
-        )}
+        <ProfileField label="Email" value={userInfor.email} disable={true} />
+
         <Box my="32px">
           <Button variant="contained" color="primary" onClick={changeName}>
             Save
@@ -194,6 +193,7 @@ function ProfileField(props) {
         id="outlined-basic"
         value={props.value}
         variant="outlined"
+        disabled={props.disable}
       />
     </Grid>
   );

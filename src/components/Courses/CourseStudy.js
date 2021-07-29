@@ -129,7 +129,6 @@ export default function CourseStudy() {
     getCourseContentAPI();
     getCourseDetailAPI();
     getCourseReviewsAPI();
-    sendLog({ type: "USER_VIEW_COURSE", target_id: course_id });
   }, [course_id]);
 
   return (
