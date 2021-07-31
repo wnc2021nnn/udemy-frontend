@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./Register.module.css";
 import { verifyEmail, verifyPassword } from "../../utils/auth/verify";
 import { useDispatch, useSelector } from "react-redux";
-import { register, verifyEmailOTP } from "../../api/user-api";
+import { register, verifyEmailOTP, resendEmailOTP } from "../../api/user-api";
 import { useHistory } from "react-router";
 import Loader from "../UI/Loader";
 import ModalMaterial from "../UI/ModalMaterial/ModalMaterial";
@@ -98,10 +98,17 @@ export default function Register(props) {
   };
 
   const handleVerifyEmail = () => {
-    console.log(verify);
     if (verify.code.trim().length != 0) {
       verifyEmailOTP(verify).then((res) => history.push("/login"));
     }
+  };
+
+  const handleResendOTP = () => {
+    resendEmailOTP().then((res) => {
+      setVerify((prevState) => {
+        return { ...prevState, id: res.data.data.id };
+      });
+    });
   };
 
   return (
@@ -158,7 +165,9 @@ export default function Register(props) {
           >
             Verify
           </Button>
-          <Button variant="contained">Resend</Button>
+          <Button variant="contained" onClick={handleResendOTP}>
+            Resend
+          </Button>
         </div>
       </ModalMaterial>
     </div>

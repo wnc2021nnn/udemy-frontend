@@ -13,6 +13,7 @@ const APIPath = {
   LOG: "/logs",
   GET_MY_COURSES: "/courses/my-courses",
   VERIFY_EMAIL: "/otp/verify-email",
+  RESEND_OTP: "/otp/resend",
 };
 
 export default APIPath;

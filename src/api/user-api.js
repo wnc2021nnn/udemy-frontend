@@ -47,3 +47,9 @@ export const verifyEmailOTP = async (data) => {
   const res = await axiosIntance.post(APIPath.VERIFY_EMAIL, data);
   return res;
 };
+
+export const resendEmailOTP = async () => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.post(APIPath.RESEND_OTP);
+  return res;
+};
