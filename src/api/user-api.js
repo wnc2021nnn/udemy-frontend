@@ -41,3 +41,9 @@ export const changePassword = async (data) => {
   const res = await axiosIntance.patch(APIPath.USERS, data);
   return res;
 };
+
+export const verifyEmailOTP = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.post(APIPath.VERIFY_EMAIL, data);
+  return res;
+};

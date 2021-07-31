@@ -18,6 +18,7 @@ import { getToken, getUserId } from "./utils/auth/verify";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainNavigation from "./components/layout/MainNavigation";
 import TeacherNavigation from "./components/layout/TeacherNavigation";
+import SearchResult from "./components/Search/SearchResult";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,9 @@ function App() {
             <PrivateRoute path="/course/post" component={PostCoursePage} />
             <Route path="/courses/:course_id">
               <CourseDetailPage />
+            </Route>
+            <Route path="/search/:keyword">
+              <SearchResult />
             </Route>
             <Route path="/login" exact>
               <LoginPage />

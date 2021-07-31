@@ -9,6 +9,7 @@ import SignButton from "../UI/Button/SignButton";
 import { useSelector } from "react-redux";
 import { getToken } from "../../utils/auth/verify";
 import Status from "../../constants/status-constants";
+import SearchBar from "../Search/SearchBar";
 
 const MainNavigation = () => {
   const loginInform = useSelector((state) => state.user.userInform);
@@ -34,10 +35,7 @@ const MainNavigation = () => {
           clickTopicHandler={clickTopicHandler}
           title={"Category"}
         />
-        <form className={classes.search_bar}>
-          <input placeholder="Search..."></input>
-        </form>
-
+        <SearchBar className={classes.search_bar} />
         {isLogin ? (
           <NavLink to="/profile" activeClassName={classes.active}>
             Profile

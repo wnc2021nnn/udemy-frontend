@@ -2,7 +2,7 @@ import classes from "./PostCourse.module.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
-import { Button, Switch } from "@material-ui/core";
+import { Button, Switch, TextField } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { useParams } from "react-router";
 import {
@@ -14,6 +14,7 @@ import CategoryDropdown from "../../Category/CategoryDropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { setStatus } from "../../../store/slices/statusSlice";
 import Status from "../../../constants/status-constants";
+import ModalMaterial from "../../UI/ModalMaterial/ModalMaterial";
 export default function PostCourse(props) {
   const params = useParams();
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ export default function PostCourse(props) {
     status: "INCOMPLETE",
   };
   const [courseInfor, setCourseInfor] = useState(initialState);
+  const [isOpenAddNewChapter, setIsOpenAddNewChapter] = useState(false);
+  const [newChapter, setNewChapter] = useState("");
+  const [chapters, setChapters] = useState([]);
   const topicTitle = useSelector((state) => {
     const listCategory = state.categories.listCategory.entities;
     for (let i = 0; i < listCategory.length; i++) {
@@ -82,6 +86,7 @@ export default function PostCourse(props) {
       return { ...prevState, topic_id };
     });
   };
+  console.log(chapters);
   useEffect(() => {
     if (course_id) {
       getCourseById(course_id).then((res) => {
@@ -120,6 +125,21 @@ export default function PostCourse(props) {
         )
       );
     }
+  };
+  const onClickAddNewChapter = () => {
+    setIsOpenAddNewChapter(true);
+  };
+
+  const handleChangeChapter = (event) => {
+    const value = event.target.value;
+    setNewChapter(value);
+  };
+
+  const submitAddNewChapter = () => {
+    setIsOpenAddNewChapter(false);
+    setChapters((prevState) => {
+      return { ...prevState, newChapter };
+    });
   };
   return (
     <div className={classes.wrapper}>
@@ -172,10 +192,41 @@ export default function PostCourse(props) {
         color="primary"
         //startIcon={<AddIcon />}
         style={{ width: "30%", marginTop: "1rem" }}
+        onClick={onClickAddNewChapter}
+      >
+        Add chapter
+      </Button>
+
+      <Button
+        variant="contained"
+        color="primary"
+        //startIcon={<AddIcon />}
+        style={{ width: "30%", marginTop: "1rem" }}
         onClick={onSaveClickHandler}
       >
         Save
       </Button>
+
+      <ModalMaterial
+        isOpen={isOpenAddNewChapter}
+        title="Add new chapter"
+        handleOpen={setIsOpenAddNewChapter}
+      >
+        <TextField
+          id="standard-basic"
+          label="Name"
+          onChange={handleChangeChapter}
+        />
+        <div style={{ marginTop: "2rem" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={submitAddNewChapter}
+          >
+            Submit
+          </Button>
+        </div>
+      </ModalMaterial>
     </div>
   );
 }

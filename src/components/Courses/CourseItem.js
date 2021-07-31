@@ -5,6 +5,7 @@ import classes from "./CourseItem.module.css";
 import Image from "../UI/Image/Image";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
+import bestIcon from "../../assets/icons/best.svg";
 const CourseItem = (props) => {
   const history = useHistory();
   const courseItem = props.courseItem;
@@ -36,8 +37,10 @@ const CourseItem = (props) => {
           src={courseItem.avatar}
           className={classes.thumbnail}
         />
+
         <div className={classes.infor}>
           <div>{courseItem.title}</div>
+
           <div
             className={classes.author}
           >{`${courseItem.lecturer_last_name} ${courseItem.lecturer_first_name}`}</div>
@@ -47,6 +50,18 @@ const CourseItem = (props) => {
               <img alt="start icon" src={startIcon} />
             </div>
             <div>{`${courseItem.rating_total} reviews`}</div>
+            {courseItem.registed_count > 2 && (
+              <img
+                src={bestIcon}
+                style={{
+                  width: "2rem",
+                  height: "2rem",
+                  position: "relative",
+                  top: "0",
+                  right: "0",
+                }}
+              />
+            )}
           </div>
         </div>
         <div>{courseItem.price}$</div>

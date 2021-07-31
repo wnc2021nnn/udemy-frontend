@@ -2,12 +2,13 @@ import { useState } from "react";
 import classes from "./Register.module.css";
 import { verifyEmail, verifyPassword } from "../../utils/auth/verify";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../api/user-api";
+import { register, verifyEmailOTP } from "../../api/user-api";
 import { useHistory } from "react-router";
 import Loader from "../UI/Loader";
 import ModalMaterial from "../UI/ModalMaterial/ModalMaterial";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Util } from "../../constants/util-constants";
 
 export default function Register(props) {
   const [error, setError] = useState({
@@ -25,6 +26,11 @@ export default function Register(props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
+
+  const [verify, setVerify] = useState({
+    id: "",
+    code: "",
+  });
 
   const registerHandler = (e) => {
     e.preventDefault();
@@ -53,10 +59,17 @@ export default function Register(props) {
     setIsLoading(true);
     register(registerInform)
       .then((res) => {
+        localStorage.setItem(Util.ACCESS_TOKEN, res.data.data.access_token);
+        localStorage.setItem(Util.REFRESH_TOKEN, res.data.data.refresh_token);
+        localStorage.setItem(Util.USER_ID, res.data.data.user_id);
+        setVerify((prevState) => {
+          return { ...prevState, id: res.data.data.otp.id };
+        });
         setIsLoading(false);
         setIsOpen(true);
       })
       .catch((error) => {
+        console.log("Loi ne", error);
         setIsLoading(false);
         setError({
           message: "Email đã được đăng ký! Vui lòng chọn email khác.",
@@ -79,7 +92,16 @@ export default function Register(props) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    console.log(value);
+    setVerify((prevState) => {
+      return { ...prevState, [name]: value };
+    });
+  };
+
+  const handleVerifyEmail = () => {
+    console.log(verify);
+    if (verify.code.trim().length != 0) {
+      verifyEmailOTP(verify).then((res) => history.push("/login"));
+    }
   };
 
   return (
@@ -111,9 +133,17 @@ export default function Register(props) {
           </Loader>
         </button>
       </form>
-      <ModalMaterial isOpen={isOpen} handleOpen={setIsOpen}>
-        <h2 id="simple-modal-title">Verify Email</h2>
-        <TextField id="standard-basic" label="OTP" onChange={handleChangeOTP} />
+      <ModalMaterial
+        isOpen={isOpen}
+        handleOpen={setIsOpen}
+        title={"Verify email"}
+      >
+        <TextField
+          id="standard-basic"
+          label="OTP"
+          onChange={handleChangeOTP}
+          name="code"
+        />
         <div
           style={{
             display: "flex",
@@ -121,7 +151,11 @@ export default function Register(props) {
             marginTop: "2rem",
           }}
         >
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleVerifyEmail}
+          >
             Verify
           </Button>
           <Button variant="contained">Resend</Button>

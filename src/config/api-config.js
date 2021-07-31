@@ -41,6 +41,9 @@ const AxiosIntance = () => {
     },
     (err) => {
       console.log("Error ", err.response);
+
+      if (err.response.status !== 401) return Promise.reject(err);
+
       return new Promise((resolve, reject) => {
         const originalReq = err.config;
         if (
@@ -79,7 +82,6 @@ const AxiosIntance = () => {
 
           resolve(res);
         }
-
         return Promise.reject(err);
       });
     }

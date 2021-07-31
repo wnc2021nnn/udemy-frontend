@@ -41,6 +41,8 @@ export default function ModalMaterial(props) {
       aria-describedby="simple-modal-description"
     >
       <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">{props.title}</h2>
+
         {props.children}
       </div>
     </Modal>

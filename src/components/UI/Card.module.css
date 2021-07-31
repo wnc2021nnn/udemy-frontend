@@ -1,16 +1,16 @@
-.card{
-    margin: auto  10px;
-    padding: 10px 20px;
-    border-radius: 1rem;
-    height: 350px;
-    width: 350px;
-    display: inline-block;
-    flex-wrap: wrap;
+.card {
+  margin: auto 10px;
+  padding: 10px 20px;
+  border-radius: 1rem;
+  height: 380px;
+  width: 350px;
+  display: inline-block;
+  flex-wrap: wrap;
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-  }
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
 
 /* .card img{
     height: 100%;

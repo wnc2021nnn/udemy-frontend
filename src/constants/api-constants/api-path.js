@@ -12,6 +12,7 @@ const APIPath = {
   PUT_REVIEW_COURSE: "/course-reviews",
   LOG: "/logs",
   GET_MY_COURSES: "/courses/my-courses",
+  VERIFY_EMAIL: "/otp/verify-email",
 };
 
 export default APIPath;

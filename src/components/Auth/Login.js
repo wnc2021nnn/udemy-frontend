@@ -65,15 +65,10 @@ export default function Login(props) {
       localStorage.setItem(Util.USER_ID, userInform.user.user_id);
 
       history.push(from.pathname);
-    } else if (userInform.status.status === Status.FAILED_STATUS)
+    } else if (userInform.status.status === Status.FAILED_STATUS) {
+      setIsLoading(false);
       setError("Invalid email, password");
-    else
-      setTimeout(() => {
-        if (userInform.status.status === Status.LOADING_STATUS) {
-          setError("Invalid email, password");
-          setIsLoading(false);
-        }
-      }, 2000);
+    }
   }, [userInform.status.status]);
 
   return (
