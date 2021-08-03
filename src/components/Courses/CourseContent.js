@@ -1,6 +1,6 @@
 import classes from "./CourseContent.module.css";
 import arrowIcon from "../../assets/icons/arrowIcon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getIdVideoYoutube } from "../../utils/videoUtil";
 import YouTubeVideoPlayer from "../UI/VideoPlayer/YoutubeVideoPlayer";
 
@@ -8,7 +8,7 @@ export default function CourseContent(props) {
   const { lessons, chapters } = props.courseContent;
   const isPreview = props.isPreview;
   const onLessonClick = props.onLessonClick;
-  const lessonActiveId = props.lessonActiveId;
+  const lessonActive = props.lessonActive;
   let index = 1;
   const content = chapters.map((chapter) => {
     const listLesson = lessons.filter(
@@ -32,8 +32,16 @@ export default function CourseContent(props) {
   };
 
   const onLessonClickHandler = (lesson) => {
-    if (onLessonClick) onLessonClick(lesson);
+    if (onLessonClick) {
+      onLessonClick(lesson);
+    }
   };
+
+  useEffect(() => {
+    setActive((prevState) => {
+      return { ...prevState, [lessonActive.chapter_id]: true };
+    });
+  }, [lessonActive]);
 
   const courseContentJSX = content.map((contentItem) => {
     const chapter = contentItem.chapter;
@@ -66,7 +74,9 @@ export default function CourseContent(props) {
                 key={lesson.lesson_id}
                 onClick={() => onLessonClickHandler(lesson)}
                 style={
-                  lessonActiveId === lesson.lesson_id ? { color: "blue" } : {}
+                  lessonActive.lesson_id === lesson.lesson_id
+                    ? { color: "blue" }
+                    : {}
                 }
               >
                 {index++}. {lesson.title}

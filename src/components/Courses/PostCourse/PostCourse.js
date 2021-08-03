@@ -4,10 +4,12 @@ import "react-quill/dist/quill.snow.css";
 import { useEffect, useState } from "react";
 import { Button, Switch, TextField } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import {
+  addChapter,
   createCourse,
   getCourseById,
+  getCourseContent,
   updateCourse,
 } from "../../../api/api-courses";
 import CategoryDropdown from "../../Category/CategoryDropDown";
@@ -15,7 +17,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setStatus } from "../../../store/slices/statusSlice";
 import Status from "../../../constants/status-constants";
 import ModalMaterial from "../../UI/ModalMaterial/ModalMaterial";
+import AddChapter from "./AddChapter";
+import ListChapter from "./ListChapter";
+import ListLesson from "./ListLesson";
 export default function PostCourse(props) {
+  const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();
   const course_id = params.course_id;
@@ -30,8 +36,13 @@ export default function PostCourse(props) {
   };
   const [courseInfor, setCourseInfor] = useState(initialState);
   const [isOpenAddNewChapter, setIsOpenAddNewChapter] = useState(false);
-  const [newChapter, setNewChapter] = useState("");
-  const [chapters, setChapters] = useState([]);
+  const [newChapter, setNewChapter] = useState({ index: 0, title: "" });
+  const [courseContent, setCourseContent] = useState({
+    chapters: [],
+    lessons: [],
+  });
+
+  const [activeChapter, setActiveChapter] = useState({ chapter_id: "" });
   const topicTitle = useSelector((state) => {
     const listCategory = state.categories.listCategory.entities;
     for (let i = 0; i < listCategory.length; i++) {
@@ -86,7 +97,6 @@ export default function PostCourse(props) {
       return { ...prevState, topic_id };
     });
   };
-  console.log(chapters);
   useEffect(() => {
     if (course_id) {
       getCourseById(course_id).then((res) => {
@@ -102,8 +112,22 @@ export default function PostCourse(props) {
             status: courseRes.status,
           });
       });
+      getCourseContent(course_id).then((res) => {
+        const content = res.data.data;
+        const chaptersRes = res.data.data.chapters.sort(
+          (a, b) => a.index - b.index
+        );
+        console.log("chapters", chaptersRes);
+        setCourseContent({
+          chapters: chaptersRes,
+          ...content,
+        });
+        if (content.chapters && content.chapters.length !== 0)
+          setActiveChapter(content.chapters[0]);
+      });
     } else setCourseInfor(initialState);
   }, [params.course_id]);
+  console.log("active", activeChapter);
 
   const onSaveClickHandler = () => {
     if (!course_id)
@@ -114,6 +138,7 @@ export default function PostCourse(props) {
             status: Status.SUCCESS_STATUS,
           })
         );
+        history.push(`/${res.data.data.course_id}`);
       });
     else {
       updateCourse(course_id, courseInfor).then((res) =>
@@ -126,21 +151,36 @@ export default function PostCourse(props) {
       );
     }
   };
-  const onClickAddNewChapter = () => {
-    setIsOpenAddNewChapter(true);
-  };
 
   const handleChangeChapter = (event) => {
     const value = event.target.value;
-    setNewChapter(value);
+    setNewChapter((prevState) => {
+      return { ...prevState, title: value };
+    });
+  };
+
+  const getCourseContentHandler = () => {
+    getCourseContent(course_id).then((res) => setCourseContent(res.data.data));
   };
 
   const submitAddNewChapter = () => {
-    setIsOpenAddNewChapter(false);
-    setChapters((prevState) => {
-      return { ...prevState, newChapter };
+    setCourseContent((prevState) => {
+      return { ...prevState, chapters: [...prevState.chapters, newChapter] };
+    });
+    addChapter({
+      course_id: course_id,
+      chapters: [
+        {
+          index: courseContent.chapters.length - 1,
+          title: newChapter.title,
+        },
+      ],
+    }).then((res) => {
+      setIsOpenAddNewChapter(false);
+      getCourseContentHandler();
     });
   };
+
   return (
     <div className={classes.wrapper}>
       <h3>Course name</h3>
@@ -187,15 +227,38 @@ export default function PostCourse(props) {
         value={courseInfor.description}
         onChange={onChangeFullDesciptionHandler}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        //startIcon={<AddIcon />}
-        style={{ width: "30%", marginTop: "1rem" }}
-        onClick={onClickAddNewChapter}
-      >
-        Add chapter
-      </Button>
+      {course_id && (
+        <div style={{ display: "flex" }}>
+          <div style={{ width: "100%" }}>
+            <h3>List chapter</h3>
+            <ListChapter
+              chapters={courseContent.chapters}
+              activeChapter={activeChapter}
+              setActiveChapter={setActiveChapter}
+              submitAddNewChapter={submitAddNewChapter}
+              isOpenAddNewChapter={isOpenAddNewChapter}
+              setIsOpenAddNewChapter={setIsOpenAddNewChapter}
+              handleChangeChapter={handleChangeChapter}
+              submitAddNewChapter={submitAddNewChapter}
+              chapter={newChapter}
+              course_id={course_id}
+              getCourseContentHandler={getCourseContentHandler}
+            />
+          </div>
+          <div style={{ width: "2rem" }}></div>
+          {activeChapter.chapter_id !== "" && (
+            <div style={{ width: "100%" }}>
+              <h3>List lesson</h3>
+              <ListLesson
+                lessons={courseContent.lessons}
+                activeChapter={activeChapter}
+                course_id={course_id}
+                getCourseContentHandler={getCourseContentHandler}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       <Button
         variant="contained"
@@ -206,27 +269,6 @@ export default function PostCourse(props) {
       >
         Save
       </Button>
-
-      <ModalMaterial
-        isOpen={isOpenAddNewChapter}
-        title="Add new chapter"
-        handleOpen={setIsOpenAddNewChapter}
-      >
-        <TextField
-          id="standard-basic"
-          label="Name"
-          onChange={handleChangeChapter}
-        />
-        <div style={{ marginTop: "2rem" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={submitAddNewChapter}
-          >
-            Submit
-          </Button>
-        </div>
-      </ModalMaterial>
     </div>
   );
 }

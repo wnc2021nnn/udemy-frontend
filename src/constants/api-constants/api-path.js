@@ -14,6 +14,8 @@ const APIPath = {
   GET_MY_COURSES: "/courses/my-courses",
   VERIFY_EMAIL: "/otp/verify-email",
   RESEND_OTP: "/otp/resend",
+  CHAPTERS: "/chapters",
+  LESSONS: "/lessons",
 };
 
 export default APIPath;

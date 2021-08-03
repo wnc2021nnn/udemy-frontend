@@ -14,13 +14,14 @@ export default function YouTubeVideoPlayer(props) {
   const [url, setUrl] = useState();
   let timer;
   const sendStatusTimer = () => {
+    const time = refVideo.current.getCurrentTime();
+    props.sendStatus(parseInt(time, 10));
     if (props.getTimeLesson) {
       props.getTimeLesson(refVideo.current.getDuration());
     }
     clearInterval(timer);
     timer = setInterval(() => {
       if (props.sendStatus && refVideo.current) {
-        const time = refVideo.current.getCurrentTime();
         props.sendStatus(parseInt(time, 10));
       }
     }, TIME_INTERVAL);

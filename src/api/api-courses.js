@@ -104,3 +104,27 @@ export const updateCourse = async (course_id, courseInfor) => {
   );
   return res;
 };
+
+export const addChapter = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(APIPath.CHAPTERS, data);
+  return res;
+};
+
+export const addLesson = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.put(APIPath.LESSONS, data);
+  return res;
+};
+
+export const editLessonAPI = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.patch(APIPath.LESSONS, data);
+  return res;
+};
+
+export const editChapterAPI = async (data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.patch(APIPath.CHAPTERS, data);
+  return res;
+};

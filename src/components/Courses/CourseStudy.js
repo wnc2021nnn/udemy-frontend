@@ -37,11 +37,30 @@ export default function CourseStudy() {
   const [tagOverview, setTagOverview] = useState(true);
   const history = useHistory();
 
+  const findLastLesson = (lessons) => {
+    let lastLesson = { current_video_secconds_updated_at: "0" };
+    lessons.forEach((element) => {
+      if (element.current_video_secconds_updated_at) {
+        const curTime = Number(element.current_video_secconds_updated_at);
+        const maxTime = Number(lastLesson.current_video_secconds_updated_at);
+        lastLesson = curTime > maxTime ? element : lastLesson;
+      }
+    });
+
+    console.log("last lesson", lastLesson);
+    return lastLesson;
+  };
+
   const getCourseContentAPI = () => {
     getCourseContent(course_id)
       .then((res) => {
         setCourseContent(res.data.data);
-        setLesson(res.data.data.lessons[0]);
+        const lastLesson = findLastLesson(res.data.data.lessons);
+        setLesson(
+          lastLesson.current_video_secconds_updated_at != "0"
+            ? lastLesson
+            : res.data.data.lessons[0]
+        );
       })
       .catch((err) => console.error(err.message));
   };
@@ -239,7 +258,7 @@ export default function CourseStudy() {
             courseContent={courseContent}
             isPreview={false}
             onLessonClick={clickLessonHanlder}
-            lessonActiveId={lesson && lesson.lesson_id}
+            lessonActive={lesson}
           />
         </div>
       </div>
