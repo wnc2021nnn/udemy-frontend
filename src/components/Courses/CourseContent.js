@@ -38,9 +38,11 @@ export default function CourseContent(props) {
   };
 
   useEffect(() => {
-    setActive((prevState) => {
-      return { ...prevState, [lessonActive.chapter_id]: true };
-    });
+    if (!props.isPreview) {
+      setActive((prevState) => {
+        return { ...prevState, [lessonActive.chapter_id]: true };
+      });
+    }
   }, [lessonActive]);
 
   const courseContentJSX = content.map((contentItem) => {
@@ -74,7 +76,7 @@ export default function CourseContent(props) {
                 key={lesson.lesson_id}
                 onClick={() => onLessonClickHandler(lesson)}
                 style={
-                  lessonActive.lesson_id === lesson.lesson_id
+                  !isPreview && lessonActive.lesson_id === lesson.lesson_id
                     ? { color: "blue" }
                     : {}
                 }

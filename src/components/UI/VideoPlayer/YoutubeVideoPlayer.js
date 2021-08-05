@@ -15,7 +15,9 @@ export default function YouTubeVideoPlayer(props) {
   let timer;
   const sendStatusTimer = () => {
     const time = refVideo.current.getCurrentTime();
-    props.sendStatus(parseInt(time, 10));
+    if (props.sendStatus && refVideo.current) {
+      props.sendStatus(parseInt(time, 10));
+    }
     if (props.getTimeLesson) {
       props.getTimeLesson(refVideo.current.getDuration());
     }

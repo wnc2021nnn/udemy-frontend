@@ -13,18 +13,20 @@ import CourseItem from "../Courses/CourseItem";
 
 export default function SearchResult(props) {
   const params = useParams();
+
   const [listResult, setListResult] = useState({
     total: 0,
     listCourses: [],
   });
   const keyword = params.keyword;
-  const [paramsSearch, setParams] = useState({
+  const initialParams = {
     search: keyword,
     limit: 8,
     page: 1,
     sort_by: "price",
     sort_dir: "asc",
-  });
+  };
+  const [paramsSearch, setParams] = useState(initialParams);
 
   const listCourse = listResult.listCourses.map((item) => (
     <CourseItem key={item.course_id} courseItem={item} />
@@ -49,12 +51,11 @@ export default function SearchResult(props) {
   useEffect(() => {
     setParams((prevState) => {
       return {
-        ...prevState,
+        ...initialParams,
         search: keyword,
       };
     });
   }, [keyword]);
-  const [value, setValue] = useState("female");
 
   const handleChange = (event) => {
     const target = event.target;
@@ -70,9 +71,7 @@ export default function SearchResult(props) {
 
   return listResult.listCourses.length !== 0 ? (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div
-        style={{ position: "fixed", display: "flex", flexDirection: "column" }}
-      >
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <FormControl component="fieldset">
           <FormLabel component="legend">Sort by</FormLabel>
           <RadioGroup
@@ -112,6 +111,7 @@ export default function SearchResult(props) {
             margin: "2rem",
           }}
           onChange={changePaginationHandler}
+          page={paramsSearch.page}
         />
       </div>
     </div>

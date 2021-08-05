@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { register, verifyEmailOTP, resendEmailOTP } from "../../api/user-api";
 import { useHistory } from "react-router";
 import Loader from "../UI/Loader";
-import ModalMaterial from "../UI/ModalMaterial/ModalMaterial";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+
 import { Util } from "../../constants/util-constants";
+import VerifyEmail from "./VerifyEmail";
 
 export default function Register(props) {
   const [error, setError] = useState({
@@ -22,15 +21,11 @@ export default function Register(props) {
     role: 2,
   });
   const [isOpen, setIsOpen] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const history = useHistory();
-
   const [verify, setVerify] = useState({
     id: "",
     code: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const registerHandler = (e) => {
     e.preventDefault();
@@ -76,6 +71,7 @@ export default function Register(props) {
         });
       });
   };
+  console.log(verify);
 
   const handleEventChange = (event) => {
     setError({
@@ -86,28 +82,6 @@ export default function Register(props) {
     const name = target.name;
     setRegisterInform((prevState) => {
       return { ...prevState, [name]: value };
-    });
-  };
-  const handleChangeOTP = (event) => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    setVerify((prevState) => {
-      return { ...prevState, [name]: value };
-    });
-  };
-
-  const handleVerifyEmail = () => {
-    if (verify.code.trim().length != 0) {
-      verifyEmailOTP(verify).then((res) => history.push("/login"));
-    }
-  };
-
-  const handleResendOTP = () => {
-    resendEmailOTP().then((res) => {
-      setVerify((prevState) => {
-        return { ...prevState, id: res.data.data.id };
-      });
     });
   };
 
@@ -140,36 +114,7 @@ export default function Register(props) {
           </Loader>
         </button>
       </form>
-      <ModalMaterial
-        isOpen={isOpen}
-        handleOpen={setIsOpen}
-        title={"Verify email"}
-      >
-        <TextField
-          id="standard-basic"
-          label="OTP"
-          onChange={handleChangeOTP}
-          name="code"
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "2rem",
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleVerifyEmail}
-          >
-            Verify
-          </Button>
-          <Button variant="contained" onClick={handleResendOTP}>
-            Resend
-          </Button>
-        </div>
-      </ModalMaterial>
+      <VerifyEmail isOpen={isOpen} setIsOpen={setIsOpen} verify={verify} />
     </div>
   );
 }
