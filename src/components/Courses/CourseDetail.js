@@ -219,7 +219,10 @@ export default function CourseDetail(props) {
               alt={courseDetail.course_id}
               className={classes.image}
             />
-            <h3>${courseDetail.price}</h3>
+            <s>
+              <h3>${courseDetail.price}</h3>
+            </s>
+            <h3>$0</h3>
             <button onClick={clickBuyCourseHandler}>Buy now</button>
           </div>
         </div>

@@ -8,6 +8,9 @@ import { verifyEmail } from "../../utils/auth/verify";
 import Loader from "../UI/Loader";
 import classes from "./Login.module.css";
 
+import VerifyEmail from "../../components/Auth/VerifyEmail";
+import { resendEmailOTP } from "../../api/user-api";
+
 export default function Login(props) {
   const history = useHistory();
   const [error, setError] = useState("");
@@ -20,7 +23,20 @@ export default function Login(props) {
   const userInform = useSelector((state) => state.user.userInform);
   const [isLoading, setIsLoading] = useState(false);
   const { from } = location.state || { from: { pathname: "/" } };
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [verify, setVerify] = useState({
+    id: "",
+    code: "",
+  });
+  const userInfor = useSelector((state) => state.user.userInform.user);
+  const handleResendOTP = (token) => {
+    resendEmailOTP(token).then((res) => {
+      setIsOpen(true);
+      setVerify((prevState) => {
+        return { ...prevState, id: res.data.data.id };
+      });
+    });
+  };
   const handleChangeInput = (event) => {
     setError("");
     const target = event.target;
@@ -51,22 +67,19 @@ export default function Login(props) {
     }
     setIsLoading(true);
     dispatch(userLogin(loginInform));
-    setTimeout(() => {
-      if (userInform.status.status === Status.LOADING_STATUS) {
-        setError("Invalid email, password");
-        setIsLoading(false);
-      }
-    }, 3000);
   };
   useEffect(() => {
     if (userInform.status.status === Status.SUCCESS_STATUS) {
-      localStorage.setItem(Util.ACCESS_TOKEN, userInform.user.access_token);
-      localStorage.setItem(Util.REFRESH_TOKEN, userInform.user.refresh_token);
-      localStorage.setItem(Util.USER_ID, userInform.user.user_id);
-
-      history.push(from.pathname);
+      if (!userInfor.email_verified) {
+        setIsLoading(false);
+        handleResendOTP(userInfor.access_token);
+      } else {
+        localStorage.setItem(Util.ACCESS_TOKEN, userInform.user.access_token);
+        localStorage.setItem(Util.REFRESH_TOKEN, userInform.user.refresh_token);
+        localStorage.setItem(Util.USER_ID, userInform.user.user_id);
+        history.push(from.pathname);
+      }
     } else if (userInform.status.status === Status.FAILED_STATUS) {
-      setIsLoading(false);
       setError("Invalid email, password");
     }
   }, [userInform.status.status]);
@@ -90,6 +103,12 @@ export default function Login(props) {
         </button>
       </form>
       <a onClick={registerClickHandler}>Chưa có tài khoản? Đăng ký ngay!</a>
+      <VerifyEmail
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        verify={verify}
+        token={userInfor.access_token}
+      />
     </div>
   );
 }

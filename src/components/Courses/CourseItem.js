@@ -64,7 +64,12 @@ const CourseItem = (props) => {
             )}
           </div>
         </div>
-        <div>{courseItem.price}$</div>
+        <div>
+          <s>
+            <span>{courseItem.price}$</span>
+          </s>
+          <span> 0$</span>
+        </div>
         <div>{topicTitle}</div>
       </div>
     </Card>

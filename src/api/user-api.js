@@ -42,14 +42,22 @@ export const changePassword = async (data) => {
   return res;
 };
 
-export const verifyEmailOTP = async (data) => {
+export const verifyEmailOTP = async (token, data) => {
   const axiosIntance = AxiosIntance();
+  axiosIntance.defaults.headers = {
+    "x-access-token": token,
+    "Content-Type": "application/json",
+  };
   const res = await axiosIntance.post(APIPath.VERIFY_EMAIL, data);
   return res;
 };
 
-export const resendEmailOTP = async () => {
+export const resendEmailOTP = async (token) => {
   const axiosIntance = AxiosIntance();
+  axiosIntance.defaults.headers = {
+    "x-access-token": token,
+    "Content-Type": "application/json",
+  };
   const res = await axiosIntance.post(APIPath.RESEND_OTP);
   return res;
 };

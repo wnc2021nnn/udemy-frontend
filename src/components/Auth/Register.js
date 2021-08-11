@@ -21,6 +21,7 @@ export default function Register(props) {
     role: 2,
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [token, setToken] = useState("");
   const [verify, setVerify] = useState({
     id: "",
     code: "",
@@ -54,9 +55,7 @@ export default function Register(props) {
     setIsLoading(true);
     register(registerInform)
       .then((res) => {
-        localStorage.setItem(Util.ACCESS_TOKEN, res.data.data.access_token);
-        localStorage.setItem(Util.REFRESH_TOKEN, res.data.data.refresh_token);
-        localStorage.setItem(Util.USER_ID, res.data.data.user_id);
+        setToken(res.data.data.access_token);
         setVerify((prevState) => {
           return { ...prevState, id: res.data.data.otp.id };
         });
@@ -114,7 +113,12 @@ export default function Register(props) {
           </Loader>
         </button>
       </form>
-      <VerifyEmail isOpen={isOpen} setIsOpen={setIsOpen} verify={verify} />
+      <VerifyEmail
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        verify={verify}
+        token={token}
+      />
     </div>
   );
 }

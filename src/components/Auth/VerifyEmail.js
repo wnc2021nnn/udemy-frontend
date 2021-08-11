@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 
 export default function VerifyEmail(props) {
   const history = useHistory();
-
+  const token = props.token;
   const [verify, setVerify] = useState({
     id: "",
     code: "",
@@ -30,14 +30,14 @@ export default function VerifyEmail(props) {
 
   const handleVerifyEmail = () => {
     if (verify.code.trim().length != 0) {
-      verifyEmailOTP(verify)
+      verifyEmailOTP(token, verify)
         .then((res) => history.push("/login"))
         .catch((err) => setError("Wrong OTP"));
     }
   };
 
   const handleResendOTP = () => {
-    resendEmailOTP().then((res) => {
+    resendEmailOTP(token).then((res) => {
       setVerify((prevState) => {
         return { ...prevState, id: res.data.data.id };
       });

@@ -10,15 +10,14 @@ import { useSelector } from "react-redux";
 import { getToken } from "../../utils/auth/verify";
 import Status from "../../constants/status-constants";
 import SearchBar from "../Search/SearchBar";
+import { Util } from "../../constants/util-constants";
 
 const MainNavigation = () => {
   const loginInform = useSelector((state) => state.user.userInform);
   const history = useHistory();
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
-    setIsLogin(
-      loginInform.status.status === Status.SUCCESS_STATUS || getToken()
-    );
+    setIsLogin(getToken() || loginInform.user.email_verified);
   }, [loginInform]);
 
   const clickTopicHandler = (topic_id) => {

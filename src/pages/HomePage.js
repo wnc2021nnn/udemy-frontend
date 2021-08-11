@@ -10,8 +10,6 @@ import ListCourses from "../components/Courses/ListCourses.js";
 import HotCategories from "../components/Category/HotCategories";
 import Status from "../constants/status-constants";
 import { setStatus } from "../store/slices/statusSlice";
-import VerifyEmail from "../components/Auth/VerifyEmail";
-import { resendEmailOTP } from "../api/user-api";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -24,32 +22,12 @@ const HomePage = () => {
   const listMostViewCourses = useSelector(
     (state) => state.courses.listMostViewCourses
   );
-  const [isOpen, setIsOpen] = useState(false);
-  const [verify, setVerify] = useState({
-    id: "",
-    code: "",
-  });
-  const userInfor = useSelector((state) => state.user.userInform.user);
-  const handleResendOTP = () => {
-    resendEmailOTP().then((res) => {
-      setIsOpen(true);
-      setVerify((prevState) => {
-        return { ...prevState, id: res.data.data.id };
-      });
-    });
-  };
 
   useEffect(() => {
     dispatch(fetchMostViewCourses());
     dispatch(fetchNewestCourses());
     dispatch(fetchHighlightCourses());
   }, []);
-
-  useEffect(() => {
-    if (!userInfor.email_verified) {
-      handleResendOTP();
-    }
-  }, [userInfor]);
 
   useEffect(() => {
     if (
@@ -75,7 +53,6 @@ const HomePage = () => {
         listItemCourse={listNewestCourses.entities}
       />
       <HotCategories />
-      <VerifyEmail isOpen={isOpen} setIsOpen={setIsOpen} verify={verify} />
     </Fragment>
   );
 };

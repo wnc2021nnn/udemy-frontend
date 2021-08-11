@@ -12,6 +12,16 @@ const CoursePanel = (props) => {
       (item) => item.course_id === courseItem.course_id
     )
   );
+  const topicTitle = useSelector((state) => {
+    const listCategory = state.categories.listCategory.entities;
+    for (let i = 0; i < listCategory.length; i++) {
+      const element = listCategory[i];
+      for (let j = 0; j < element.topics.length; j++) {
+        if (element.topics[j].topic_id === courseItem.topic_id)
+          return element.topics[j].title;
+      }
+    }
+  });
   const courseItemClickHandler = () => {
     if (!isMyCourse) history.push(`/courses/${courseItem.course_id}`);
     else history.push(`/learn/${courseItem.course_id}`);
@@ -20,7 +30,7 @@ const CoursePanel = (props) => {
   return (
     <div className={classes.wrapper} onClick={courseItemClickHandler}>
       <div className={classes.infor}>
-        <div>{courseItem.description}</div>
+        <div>{courseItem.title}</div>
         <div
           className={classes.author}
         >{`${courseItem.lecturer_last_name} ${courseItem.lecturer_first_name}`}</div>
@@ -31,7 +41,12 @@ const CoursePanel = (props) => {
           </div>
           <div>{`${courseItem.rating_total} reviews`}</div>
         </div>
-        <div>{courseItem.price}$</div>
+        <div style={{ display: "flex" }}>
+          <s>{courseItem.price}$</s>
+          <div style={{ width: "2rem" }}></div>
+          <div>0$</div>
+        </div>
+        <div>{topicTitle}</div>
       </div>
     </div>
   );
