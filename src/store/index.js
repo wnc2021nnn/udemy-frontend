@@ -4,6 +4,7 @@ import categoriesSlice from "./slices/categoriesSlice";
 import userSlice from "./slices/userSlice";
 import statusSlice from "./slices/statusSlice";
 import watchlistSlice from "./slices/watchlistSlice";
+import { combineReducers } from "redux";
 
 const store = configureStore({
   reducer: {

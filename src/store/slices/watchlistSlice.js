@@ -21,7 +21,11 @@ export const fetchWatchlist = createAsyncThunk(
 const watchlistSlice = createSlice({
   name: "watchlist",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearWatchList(state, action) {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWatchlist.pending, (state) => {
@@ -37,5 +41,7 @@ const watchlistSlice = createSlice({
       });
   },
 });
+
+export const { clearWatchList } = watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

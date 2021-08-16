@@ -110,7 +110,20 @@ export const fetchMyCourses = createAsyncThunk(
 const courseSlice = createSlice({
   name: "courses",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearMyCourses(state, action) {
+      return {
+        ...state,
+        myCourses: {
+          entities: [],
+          status: {
+            status: "",
+            message: "",
+          },
+        },
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Get all courses
@@ -185,5 +198,7 @@ const courseSlice = createSlice({
       });
   },
 });
+
+export const { clearMyCourses } = courseSlice.actions;
 
 export default courseSlice.reducer;

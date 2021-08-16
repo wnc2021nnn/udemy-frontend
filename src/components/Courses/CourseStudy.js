@@ -183,7 +183,12 @@ export default function CourseStudy() {
           </div>
           {tagOverview ? (
             <div className={classes.infor}>
-              <h3>{course.description}</h3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: course.description,
+                }}
+                style={{ margin: "2rem" }}
+              />
               <div
                 style={{
                   display: "flex",

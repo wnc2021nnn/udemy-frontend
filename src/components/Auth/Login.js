@@ -70,8 +70,10 @@ export default function Login(props) {
   };
   useEffect(() => {
     if (userInform.status.status === Status.SUCCESS_STATUS) {
+      console.log(userInfor);
       if (!userInfor.email_verified) {
         setIsLoading(false);
+        setError("Please verify your email!");
         handleResendOTP(userInfor.access_token);
       } else {
         localStorage.setItem(Util.ACCESS_TOKEN, userInform.user.access_token);
@@ -80,6 +82,7 @@ export default function Login(props) {
         history.push(from.pathname);
       }
     } else if (userInform.status.status === Status.FAILED_STATUS) {
+      setIsLoading(false);
       setError("Invalid email, password");
     }
   }, [userInform.status.status]);

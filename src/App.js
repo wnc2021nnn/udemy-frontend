@@ -34,11 +34,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setRole(!userInfor.role || userInfor.role === 2);
+    console.log(userInfor);
+    if (userInfor.email_verified)
+      if (!userInfor.role) setRole(false);
+      else setRole(userInfor.role === 1);
+    else setRole(false);
   }, [userInfor]);
+  console.log(role);
   return (
     <div className="App">
-      {role ? (
+      {!role ? (
         <Layout>
           <MainNavigation />
           <Switch>

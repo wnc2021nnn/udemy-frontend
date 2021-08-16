@@ -2,7 +2,9 @@ import { Button, Box, Avatar, Divider, Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { clearMyCourses } from "../../store/slices/coursesSlice";
 import { logOut } from "../../store/slices/userSlice";
+import { clearWatchList } from "../../store/slices/watchlistSlice";
 export function ProfileNavigation(props) {
   const userInfor = useSelector((state) => state.user.userInform.user);
   const [tabs, setTabs] = useState(["Profile", "Watch List", "My Courses"]);
@@ -11,6 +13,8 @@ export function ProfileNavigation(props) {
   const logOutClickHandler = () => {
     localStorage.clear();
     dispatch(logOut());
+    dispatch(clearMyCourses());
+    dispatch(clearWatchList());
     history.push("/");
   };
 

@@ -39,9 +39,11 @@ export default function CourseContent(props) {
 
   useEffect(() => {
     if (!props.isPreview) {
-      setActive((prevState) => {
-        return { ...prevState, [lessonActive.chapter_id]: true };
-      });
+      if (lessonActive) {
+        setActive((prevState) => {
+          return { ...prevState, [lessonActive.chapter_id]: true };
+        });
+      }
     }
   }, [lessonActive]);
 
@@ -76,7 +78,7 @@ export default function CourseContent(props) {
                 key={lesson.lesson_id}
                 onClick={() => onLessonClickHandler(lesson)}
                 style={
-                  !isPreview && lessonActive.lesson_id === lesson.lesson_id
+                  !isPreview && lessonActive?.lesson_id === lesson.lesson_id
                     ? { color: "blue" }
                     : {}
                 }
