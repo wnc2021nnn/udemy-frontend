@@ -17,6 +17,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 import AddChapter from "./AddChapter";
 import { editChapterAPI } from "../../../api/api-courses";
+import { validateField } from "../../../utils/validateFormUtil";
+import { useDispatch } from "react-redux";
+import { setStatus } from "../../../store/slices/statusSlice";
+import Status from "../../../constants/status-constants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,8 +47,18 @@ export default function ListChapter(props) {
       return { ...prevState, title: event.target.value };
     });
   };
+  const dispatch = useDispatch();
 
   const submitEditChapter = () => {
+    if (validateField(editChapter.title)) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đầy đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+      return;
+    }
     editChapterAPI({ course_id, chapters: [{ ...editChapter }] }).then(
       (res) => {
         setIsOpenEditChapter(false);

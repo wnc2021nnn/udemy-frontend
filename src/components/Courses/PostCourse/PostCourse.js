@@ -180,6 +180,15 @@ export default function PostCourse(props) {
   };
 
   const submitAddNewChapter = () => {
+    if (validateField(newChapter.title)) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đầy đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+      return;
+    }
     setCourseContent((prevState) => {
       return { ...prevState, chapters: [...prevState.chapters, newChapter] };
     });

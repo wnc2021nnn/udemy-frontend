@@ -14,10 +14,14 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { validateField } from "../../../utils/validateFormUtil";
 
 import EditIcon from "@material-ui/icons/Edit";
 import AddLesson from "./AddLesson";
 import { addLesson, editLessonAPI } from "../../../api/api-courses";
+import { useDispatch } from "react-redux";
+import Status from "../../../constants/status-constants";
+import { setStatus } from "../../../store/slices/statusSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +51,7 @@ export default function ListLesson(props) {
   const [isOpenEditLesson, setIsOpenEditLesson] = useState(false);
 
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let temp = [];
@@ -92,6 +97,15 @@ export default function ListLesson(props) {
   };
 
   const submitAddNewLesson = () => {
+    if (validateField(newLesson.title) || validateField(newLesson.video_link)) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đầy đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+      return;
+    }
     setListLessonChapter((prevState) => {
       return [...prevState, newLesson];
     });
@@ -115,13 +129,25 @@ export default function ListLesson(props) {
     const target = event.target;
     const name = target.name;
     const value = target.value;
+
     setEditLesson((prevState) => {
       return { ...prevState, [name]: value };
     });
   };
 
   const submitEditLesson = () => {
-    console.log(editLesson);
+    if (
+      validateField(editLesson.title) ||
+      validateField(editLesson.video_link)
+    ) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đầy đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+      return;
+    }
     editLessonAPI({
       course_id,
       lessons: [{ ...editLesson }],
