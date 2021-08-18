@@ -170,40 +170,38 @@ export function ProfileContainer(props) {
           </Button>
         </Box>
       </Grid>
-      {userInfor.role == 2 && (
-        <Grid container direction="column" spacing={1}>
-          <Box
-            ml="4px"
-            mt="32px"
-            mb="16px"
-            justifyContent="flex-start"
-            display="flex"
+      <Grid container direction="column" spacing={1}>
+        <Box
+          ml="4px"
+          mt="32px"
+          mb="16px"
+          justifyContent="flex-start"
+          display="flex"
+        >
+          <text style={{ fontWeight: "bold" }}>Password</text>
+        </Box>
+        <RoundedTextField
+          name="old_password"
+          placeHolder="current password"
+          onChange={handleChangeInputPassword}
+          type="password"
+        />
+        <RoundedTextField
+          name="password"
+          placeHolder="new password"
+          onChange={handleChangeInputPassword}
+          type="password"
+        />
+        <Box my="32px">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={changePasswordAPI}
           >
-            <text style={{ fontWeight: "bold" }}>Password</text>
-          </Box>
-          <RoundedTextField
-            name="old_password"
-            placeHolder="current password"
-            onChange={handleChangeInputPassword}
-            type="password"
-          />
-          <RoundedTextField
-            name="password"
-            placeHolder="new password"
-            onChange={handleChangeInputPassword}
-            type="password"
-          />
-          <Box my="32px">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={changePasswordAPI}
-            >
-              Change Password
-            </Button>
-          </Box>
-        </Grid>
-      )}
+            Change Password
+          </Button>
+        </Box>
+      </Grid>
     </Box>
   );
 }
