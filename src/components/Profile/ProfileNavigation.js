@@ -69,7 +69,9 @@ function ProfileHeader(props) {
         <Avatar style={{ height: "160px", width: "160px" }} />
       </Box>
       <Box margin="16px">
-        <text style={{ fontWeight: "bold", fontSize: "20px" }}>
+        <text
+          style={{ fontWeight: "bold", fontSize: "20px", textAlign: "center" }}
+        >
           {`${userInfor.last_name} ${userInfor.first_name}`}{" "}
         </text>
       </Box>

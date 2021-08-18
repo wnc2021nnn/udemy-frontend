@@ -1,28 +1,37 @@
 import { Box, Grid, TextField, Button } from "@material-ui/core";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getUserById, changePassword } from "../../api/user-api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserById,
+  changePassword,
+  changeUserInfor,
+} from "../../api/user-api";
 import Status from "../../constants/status-constants";
 import { Util } from "../../constants/util-constants";
 import { setStatus } from "../../store/slices/statusSlice";
 import { fetchUserInfor } from "../../store/slices/userSlice";
+import { verifyEmail } from "../../utils/auth/verify";
 import { RoundedTextField } from "../UI/TextField/RoundedTextField";
 import { HeaderContainer } from "./Profile Components/HeaderContainer";
 
 export function ProfileContainer(props) {
   const dispatch = useDispatch();
-  const userInfor = props.userInfor;
+  const userInfor = useSelector((state) => state.user.userInform.user);
 
   const [changePasswordInfor, setChangePassword] = useState({});
   const [changeNameInfor, setChangeName] = useState({
     first_name: userInfor.first_name,
     last_name: userInfor.last_name,
+    email: userInfor.email,
   });
+
+  console.log(changeNameInfor, userInfor);
 
   useEffect(() => {
     setChangeName({
       first_name: userInfor.first_name,
       last_name: userInfor.last_name,
+      email: userInfor.email,
     });
   }, [userInfor]);
 
@@ -55,32 +64,51 @@ export function ProfileContainer(props) {
   };
 
   const changeName = () => {
-    changePassword(changeNameInfor)
-      .then((res) => {
-        if (res.status === 201) {
+    if (
+      changeNameInfor.email.trim().length === 0 ||
+      changeNameInfor.first_name.trim().length === 0 ||
+      changeNameInfor.last_name.trim().length === 0
+    ) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+    } else if (!verifyEmail(changeNameInfor.email)) {
+      dispatch(
+        setStatus({
+          message: "Invalid Email",
+          status: Status.FAILED_STATUS,
+        })
+      );
+    } else
+      changePassword(changeNameInfor)
+        .then((res) => {
+          if (res.status === 201) {
+            dispatch(
+              setStatus({
+                message: "Update infor successfully!",
+                status: Status.SUCCESS_STATUS,
+              })
+            );
+            dispatch(fetchUserInfor(userInfor.user_id));
+          } else
+            dispatch(
+              setStatus({
+                message: "Update infor failed!",
+                status: Status.FAILED_STATUS,
+              })
+            );
+        })
+        .catch((err) =>
           dispatch(
             setStatus({
-              message: "Update name successfully!",
-              status: Status.SUCCESS_STATUS,
-            })
-          );
-          dispatch(fetchUserInfor(userInfor.user_id));
-        } else
-          dispatch(
-            setStatus({
-              message: "Update name failed!",
+              message: "Update infor failed!",
               status: Status.FAILED_STATUS,
             })
-          );
-      })
-      .catch((err) =>
-        dispatch(
-          setStatus({
-            message: err.response,
-            status: Status.FAILED_STATUS,
-          })
-        )
-      );
+          )
+        );
   };
 
   const handleChangeInputPassword = (event) => {
@@ -108,7 +136,12 @@ export function ProfileContainer(props) {
   };
 
   return (
-    <Box padding="16px" borderLeft={0.5} borderColor="grey.500">
+    <Box
+      padding="16px"
+      borderLeft={0.5}
+      borderColor="grey.500"
+      style={{ textAlign: "center" }}
+    >
       <Grid container direction="column">
         <HeaderContainer text="My Profile" />
         <ProfileField
@@ -124,7 +157,12 @@ export function ProfileContainer(props) {
           label="Last Name"
           value={changeNameInfor.last_name}
         />
-        <ProfileField label="Email" value={userInfor.email} disable={true} />
+        <ProfileField
+          label="Email"
+          name="email"
+          value={changeNameInfor.email}
+          onChange={handleChangeInputName}
+        />
 
         <Box my="32px">
           <Button variant="contained" color="primary" onClick={changeName}>

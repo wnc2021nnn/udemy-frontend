@@ -30,8 +30,9 @@ export default function Login(props) {
   });
   const userInfor = useSelector((state) => state.user.userInform.user);
   const handleResendOTP = (token) => {
+    setIsOpen(true);
+
     resendEmailOTP(token).then((res) => {
-      setIsOpen(true);
       setVerify((prevState) => {
         return { ...prevState, id: res.data.data.id };
       });
@@ -111,6 +112,7 @@ export default function Login(props) {
         setIsOpen={setIsOpen}
         verify={verify}
         token={userInfor.access_token}
+        setError={setError}
       />
     </div>
   );

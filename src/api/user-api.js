@@ -61,3 +61,9 @@ export const resendEmailOTP = async (token) => {
   const res = await axiosIntance.post(APIPath.RESEND_OTP);
   return res;
 };
+
+export const changeUserInfor = async (userid, data) => {
+  const axiosIntance = AxiosIntance();
+  const res = await axiosIntance.patch(`${APIPath.USERS}/${userid}`, data);
+  return res;
+};

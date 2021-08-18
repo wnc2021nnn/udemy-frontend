@@ -19,7 +19,7 @@ const NEWEST_COURSES_WEEK_PARAMS = {
 
 const COURSES_HIGHLIGHTS = {
   sort: "view_from_last_week_des",
-  limit: 4,
+  limit: 3,
 };
 
 const initialState = {

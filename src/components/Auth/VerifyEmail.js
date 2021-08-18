@@ -8,6 +8,7 @@ import { useHistory } from "react-router";
 export default function VerifyEmail(props) {
   const history = useHistory();
   const token = props.token;
+  const isLogin = props.setError;
   const [verify, setVerify] = useState({
     id: "",
     code: "",
@@ -31,7 +32,11 @@ export default function VerifyEmail(props) {
   const handleVerifyEmail = () => {
     if (verify.code.trim().length != 0) {
       verifyEmailOTP(token, verify)
-        .then((res) => history.push("/login"))
+        .then((res) => {
+          props.setIsOpen(false);
+          if (!isLogin) history.push("/login");
+          else isLogin("");
+        })
         .catch((err) => setError("Wrong OTP"));
     }
   };

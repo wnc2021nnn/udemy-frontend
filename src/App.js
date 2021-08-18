@@ -34,13 +34,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(userInfor);
     if (userInfor.email_verified)
       if (!userInfor.role) setRole(false);
       else setRole(userInfor.role === 1);
     else setRole(false);
   }, [userInfor]);
-  console.log(role);
   return (
     <div className="App">
       {!role ? (

@@ -78,6 +78,15 @@ export default function CourseStudy() {
   };
 
   const reviewCourseAPI = () => {
+    if (review.rating <= 0) {
+      dispatch(
+        setStatus({
+          status: Status.FAILED_STATUS,
+          message: "Please rate this course!",
+        })
+      );
+      return;
+    }
     reviewCourse({
       course_id: course_id,
       reviews_text: review.reviews_text,
@@ -187,7 +196,7 @@ export default function CourseStudy() {
                 dangerouslySetInnerHTML={{
                   __html: course.description,
                 }}
-                style={{ margin: "2rem" }}
+                style={{ margin: "2rem", textAlign: "start" }}
               />
               <div
                 style={{

@@ -20,6 +20,7 @@ import ModalMaterial from "../../UI/ModalMaterial/ModalMaterial";
 import AddChapter from "./AddChapter";
 import ListChapter from "./ListChapter";
 import ListLesson from "./ListLesson";
+import { validateField } from "../../../utils/validateFormUtil";
 export default function PostCourse(props) {
   const history = useHistory();
   const params = useParams();
@@ -130,6 +131,21 @@ export default function PostCourse(props) {
   console.log("active", activeChapter);
 
   const onSaveClickHandler = () => {
+    if (
+      validateField(courseInfor.avatar) ||
+      validateField(courseInfor.description) ||
+      validateField(courseInfor.short_description) ||
+      validateField(courseInfor.title) ||
+      validateField(courseInfor.topic_id)
+    ) {
+      dispatch(
+        setStatus({
+          message: "Vui lòng điền đầy đủ thông tin",
+          status: Status.FAILED_STATUS,
+        })
+      );
+      return;
+    }
     if (!course_id)
       createCourse(courseInfor).then((res) => {
         dispatch(
