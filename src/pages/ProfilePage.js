@@ -28,7 +28,7 @@ export default function ProfilePage(props) {
   }, []);
 
   useEffect(() => {
-    if (userInfor.role != 2) {
+    if (userInfor.role == 1) {
       setTabViews([
         <ProfileContainer userInfor={userInfor} />,
         <MyCoursesContainer userInfor={userInfor} />,

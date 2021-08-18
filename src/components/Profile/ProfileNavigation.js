@@ -27,7 +27,7 @@ export function ProfileNavigation(props) {
   ));
 
   useEffect(() => {
-    if (userInfor.role != 2) {
+    if (userInfor.role == 1) {
       setTabs(["Profile", "My Courses"]);
     }
   }, [userInfor.role]);
